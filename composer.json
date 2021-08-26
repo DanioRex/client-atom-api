@@ -1,0 +1,50 @@
+{
+    "authors": [
+        {
+            "name": "DanioRex",
+            "email": "daniorex.github@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Daniorex\\AtomApiBuild\\": [
+                "src/Build"
+            ],
+            "Daniorex\\ClientAtomApi\\": [
+                "src/Models"
+            ]
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Daniorex\\AtomApiTests\\": [
+                "tests/"
+            ],
+            "DanioRex\\AtomApiBuild\\": [
+                "src/Build"
+            ]
+        },
+        "psr-0": {
+            "DanioRex\\AtomApiBuild\\": "src/Build"
+        }
+    },
+    "description": "Client for Atomstore Soap API",
+    "keywords": [
+        "atom",
+        "atomstore",
+        "soap",
+        "api"
+    ],
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "name": "daniorex/client-atom-api",
+    "require": {
+        "php": "^7.4",
+        "spatie/array-to-xml": "^2.16",
+        "ext-simplexml": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "type": "library"
+}

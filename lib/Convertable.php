@@ -15,7 +15,7 @@ trait Convertable
      * @param string $root_element
      * @return string
      */
-    public function convertToXml(array $data, array $structure, string $array_element, string $root_element): string
+    protected function convertToXml(array $data, array $structure, string $array_element, string $root_element): string
     {
         $processed_array = [
             $array_element => $this->xmlHelper($data, $structure)
@@ -29,12 +29,13 @@ trait Convertable
      * @param string $array_element
      * @return array
      */
-    public function convertToArray(string $xml, array $structure, string $array_element): array
+    protected function convertToArray(string $xml, array $structure, string $array_element): array
     {
         try {
             $xml = new SimpleXMLElement($xml);
         } catch (Exception $e) {
-            return ['error' => $e->getMessage()];
+            error_log($e->getMessage());
+            die();
         }
         return $this->arrayHelper($xml->xpath($array_element), $structure);
     }

@@ -29,7 +29,7 @@
   "minimum-stability": "stable",
   "name": "daniorex/client-atom-api",
   "require": {
-    "php": "^8.0",
+    "php": "^7.3",
     "spatie/array-to-xml": "^2.16",
     "ext-simplexml": "*",
     "ext-soap": "*"

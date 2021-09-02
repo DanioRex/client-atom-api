@@ -13,17 +13,23 @@ class CatalogTest extends TestCase
     {
         parent::__construct($name, $data, $dataName);
         $this->catalog = new Catalog(
-            'http://idesign.atomstore.pl/atom_api/wsdl/atom_api',
-            'dmazur',
-            ']W:(YkFLfj'
+            '',
+            '',
+            ''
         );
     }
 
-    private function testCatalogGetFunction(string $name): void
+    private function testCatalogGetFunction(string $name, bool $custom = false, array $data = []): void
     {
-        $array = $this->catalog->{substr($name, 4)}();
+        if ($custom) {
+            $array = $data;
+        } else {
+            $array = $this->catalog->{substr($name, 4)}();
+        }
+        $path = __DIR__ . DIRECTORY_SEPARATOR . 'JSONS' . DIRECTORY_SEPARATOR . $name . '.json';
+        file_put_contents($path, json_encode($array));
         $this->assertIsArray($array);
-        $this->assertEquals(false, empty($array));
+        $this->assertEquals(false, empty($array), 'Przetworzone zapytanie zwróciło pustą tablicę');
     }
 
     public function testGetProducers()
@@ -58,7 +64,9 @@ class CatalogTest extends TestCase
 
     public function testGetOpinions()
     {
-        $this->testCatalogGetFunction(__FUNCTION__);
+        $array = $this->catalog->GetOpinions(timestamp: '1970-01-01 00:00:00');
+        $this->assertIsArray($array);
+        $this->assertEquals(false, empty($array));
     }
 
     public function testGetCategories()
@@ -68,12 +76,14 @@ class CatalogTest extends TestCase
 
     public function testGetProducts()
     {
-        $this->testCatalogGetFunction(__FUNCTION__);
+        $this->testCatalogGetFunction(__FUNCTION__, custom: true, data: $this->catalog->GetProducts(combinations: 1, get_attributes: "1"));
     }
 
     public function testGetProductByCode()
     {
-        $this->testCatalogGetFunction(__FUNCTION__);
+        $code = 'TEST!@#$';
+        $string = $this->catalog->GetProductByCode(code: $code);
+        $this->assertIsString($string);
     }
 
     public function testGetProductQuantities()

@@ -69,14 +69,9 @@ class Catalog extends CatalogFactory
         );
     }
 
-    public function GetProductByCode(string $code, int $only_id = 1): array
+    public function GetProductByCode(string $code, int $only_id = 1): string
     {
-        $config = $this->getStructure(__FUNCTION__, $this->structure_directory);
-        return $this->convertToArray(
-            $this->try($this->client->{__FUNCTION__}($this->auth, $code, $only_id)),
-            $config['structure'],
-            $config['array_element']
-        );
+        return $this->try($this->client->{__FUNCTION__}($this->auth, $code, $only_id));
     }
 
     public function GetProductQuantities(bool $reservations = false, string $modified = "1970-01-01", bool $include_suppliers = false, string $separate_suppliers = "", string $store_id = "", string $code = ""): array

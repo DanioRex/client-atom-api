@@ -45,19 +45,29 @@ trait Convertable
      * @param array $structure
      * @return array
      */
-    private function arrayHelper(array $data, array $structure): array
+    private function arrayHelper(?array $data, array $structure): array
     {
         $processed_array = [];
-        foreach ($data as $element) {
-            $tmp = [];
-            foreach ($structure as $key => $item) {
-                if (is_array($item)) {
-                    $tmp[$key] = $this->arrayHelper($element->{$key}->xpath(substr($key, 0, -1)), $item);
-                } else {
-                    $tmp[$key] = $element->{$key}->__toString();
+        if (!empty($data)) {
+            foreach ($data as $element) {
+                $tmp = [];
+                foreach ($structure as $key => $item) {
+                    if (is_array($item)) {
+                        if (str_starts_with($key, '_')) {
+                            foreach ($item as $name => $val) {
+                                foreach ($element->{substr($key, 1)}->xpath(substr($name, 0, -1)) as $element) {
+                                    $tmp[$key][$name][] = $element->__toString();
+                                }
+                            }
+                        } else {
+                            $tmp[$key] = $this->arrayHelper($element->{$key}->xpath(substr($key, 0, -1)), $item);
+                        }
+                    } else {
+                        $tmp[$key] = $element->{$key}->__toString();
+                    }
                 }
+                array_push($processed_array, $tmp);
             }
-            array_push($processed_array, $tmp);
         }
         return $processed_array;
     }
@@ -67,6 +77,7 @@ trait Convertable
      * @param array $structure
      * @return array
      */
+    // TODO: Do dodania inna konstrukcja tablic w strukturze
     private function xmlHelper(?array $data, array $structure): array
     {
         $processed_array = [];

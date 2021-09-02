@@ -46,9 +46,9 @@ interface GetCatalogInterface
     /**
      * @param string $code
      * @param int $only_id
-     * @return array
+     * @return string
      */
-    public function GetProductByCode(string $code, int $only_id = 1): array;
+    public function GetProductByCode(string $code, int $only_id = 1): string;
 
     /**
      * @param bool $reservations

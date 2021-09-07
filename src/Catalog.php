@@ -318,6 +318,7 @@ class Catalog extends CatalogFactory
                 'id' => (int)$product->id->__toString(),
                 'created' => $product->created->__toString(),
                 'modified' => $product->modified->__toString(),
+                'code' => $product->code->__toString(),
                 'product_name' => $this->getTranslations($product->xpath('product_name')),
                 'product_description' => $this->getTranslations($product->xpath('product_description')),
                 'producer_name' => $product->producer_name->__toString(),

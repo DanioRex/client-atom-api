@@ -2,7 +2,10 @@
 
 namespace DanioRex\AtomApiBuild;
 
-abstract class CatalogFactory extends SoapConnection implements GetCatalogInterface
+/**
+ *
+ */
+abstract class CatalogFactory extends SoapConnection implements GetCatalogInterface, SetCatalogInterface
 {
-    use Convertable, HaveStructure;
+    use Convertable, HaveLang;
 }

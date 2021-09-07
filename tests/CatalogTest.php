@@ -13,9 +13,9 @@ class CatalogTest extends TestCase
     {
         parent::__construct($name, $data, $dataName);
         $this->catalog = new Catalog(
-            '',
-            '',
-            ''
+            'http://idesign.atomstore.pl/atom_api/wsdl/atom_api',
+            'dmazur',
+            ']W:(YkFLfj'
         );
     }
 
@@ -29,8 +29,10 @@ class CatalogTest extends TestCase
         $path = __DIR__ . DIRECTORY_SEPARATOR . 'JSONS' . DIRECTORY_SEPARATOR . $name . '.json';
         file_put_contents($path, json_encode($array));
         $this->assertIsArray($array);
-        $this->assertEquals(false, empty($array), 'Przetworzone zapytanie zwróciło pustą tablicę');
+        $this->assertJsonStringEqualsJsonFile($path, json_encode($array));
     }
+
+    // TEST: GET Catalog Methods
 
     public function testGetProducers()
     {
@@ -64,9 +66,7 @@ class CatalogTest extends TestCase
 
     public function testGetOpinions()
     {
-        $array = $this->catalog->GetOpinions(timestamp: '1970-01-01 00:00:00');
-        $this->assertIsArray($array);
-        $this->assertEquals(false, empty($array));
+        $this->testCatalogGetFunction(__FUNCTION__, custom: true, data: $this->catalog->GetOpinions(timestamp: '1970-01-01 00:00:00'));
     }
 
     public function testGetCategories()
@@ -83,11 +83,27 @@ class CatalogTest extends TestCase
     {
         $code = 'TEST!@#$';
         $string = $this->catalog->GetProductByCode(code: $code);
-        $this->assertIsString($string);
+        $this->assertIsInt($string);
     }
 
     public function testGetProductQuantities()
     {
         $this->testCatalogGetFunction(__FUNCTION__);
+    }
+
+    // TEST: SET Catalog Methods
+
+    public function testSetCategories()
+    {
+        $this->catalog->SetCategories([
+            [
+                'id' => 'test_id',
+                'name' => [
+                    'default' => 'test_pl',
+                    'eng' => 'test_eng'
+                ],
+                'hidden' => true,
+            ]
+        ]);
     }
 }

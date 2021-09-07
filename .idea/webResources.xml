@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebResourcesPaths">
+    <contentEntries>
+      <entry url="file://$PROJECT_DIR$">
+        <entryData>
+          <resourceRoots>
+            <path value="file://$PROJECT_DIR$/lib" />
+            <path value="file://$PROJECT_DIR$/lib/structures" />
+            <path value="file://$PROJECT_DIR$/lib/structures/Catalog" />
+            <path value="file://$PROJECT_DIR$/lib/interfaces" />
+            <path value="file://$PROJECT_DIR$/lib/shapes" />
+            <path value="file://$PROJECT_DIR$/lib/usable" />
+            <path value="file://$PROJECT_DIR$/lib/models" />
+            <path value="file://$PROJECT_DIR$/lib/models/Catalog" />
+          </resourceRoots>
+        </entryData>
+      </entry>
+    </contentEntries>
+  </component>
+</project>

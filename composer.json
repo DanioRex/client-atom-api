@@ -8,7 +8,11 @@
   "autoload": {
     "psr-4": {
       "DanioRex\\ClientAtomApi\\": "src/",
-      "DanioRex\\AtomApiBuild\\": "lib/"
+      "DanioRex\\AtomApiBuild\\": [
+        "lib/",
+        "lib/interfaces",
+        "lib/usable"
+      ]
     }
   },
   "autoload-dev": {

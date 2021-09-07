@@ -5,12 +5,29 @@ namespace DanioRex\AtomApiBuild;
 use SoapClient;
 use SoapFault;
 
+/**
+ * Atomstore Soap API Connection with Authorization check and calling methods retrying on fail
+ */
 class SoapConnection
 {
+    /**
+     * @var int
+     */
     protected int $max_attempts = 3;
+    /**
+     * @var SoapClient
+     */
     protected SoapClient $client;
+    /**
+     * @var array|string[]
+     */
     protected array $auth;
 
+    /**
+     * @param string $api_url
+     * @param string $login
+     * @param string $password
+     */
     public function __construct(string $api_url, string $login, string $password)
     {
         try {
@@ -33,6 +50,9 @@ class SoapConnection
         }
     }
 
+    /**
+     *
+     */
     private function testConnection(): void
     {
         $response = $this->client->CheckConnection($this->auth);
@@ -42,12 +62,18 @@ class SoapConnection
         }
     }
 
-    protected function try(string $method): string
+    /**
+     * @param string $method
+     * @param array $params
+     * @return string|null
+     */
+    protected function try(string $method, array $params = []): string
     {
         $attempts = 0;
         do {
             try {
-                $response = $method;
+                array_unshift($params, $this->auth);
+                $response = $this->client->__soapCall($method, $params);
             } catch (SoapFault $e) {
                 $attempts++;
                 sleep(1);
@@ -59,6 +85,6 @@ class SoapConnection
             }
             break;
         } while ($attempts < $this->max_attempts);
-        return $response;
+        return $response ?? 'SOMETHING WENT HORRIBLY WRONG';
     }
 }

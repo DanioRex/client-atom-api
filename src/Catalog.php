@@ -483,7 +483,7 @@ class Catalog extends CatalogFactory
 
     /**
      * <a href="https://www.atomstore.pl/dokumentacja/545-metody---katalog,-marketing.html#content554">Atomstore Documentation</a>
-     * @param array<int, array<string>> $data
+     * @param array $data
      * @return string
      */
     public function SetCategories(array $data): string
@@ -512,9 +512,7 @@ class Catalog extends CatalogFactory
                 ];
             }
         }
-        var_dump($this->convertToXml($processed, 'category', 'categories'));
-//        return $this->try(__FUNCTION__, ['xml' => $this->convertToXml($processed, 'category', 'categories')]);
-        return '';
+        return $this->try(__FUNCTION__, [['xml' => $this->convertToXml($processed, 'category', 'categories')]]);
     }
 
     /**
@@ -524,7 +522,17 @@ class Catalog extends CatalogFactory
      */
     public function SetCombinations(array $data): string
     {
-        // TODO: Implement SetCombinations() method.
+        $processed = [];
+        if (!empty($data)) {
+            foreach ($data as $element) {
+                $processed[] = [
+                    'code' => isset($element['code']) ? (is_array($element['code']) ? array_map(function ($item) {
+                        return $item;
+                    }, $element['code']) : $element['code']) : null
+                ];
+            }
+        }
+        return $this->try(__FUNCTION__, [['xml' => $this->convertToXml($processed, 'combination', 'combinations')]]);
     }
 
     /**
@@ -534,7 +542,56 @@ class Catalog extends CatalogFactory
      */
     public function SetGratis(array $data): string
     {
-        // TODO: Implement SetGratis() method.
+        $processed = [];
+        if (!empty($data)) {
+            foreach ($data as $element) {
+                $processed[] = [
+                    '_attributes' => [
+                        'type' => (string)($element['type'] ?? null),
+                        'from' => (string)($element['from'] ?? null),
+                        'multiplication' => (string)($element['multiplication'] ?? null)
+                    ],
+                    'main_items' => [
+                        'akronim' => array_map(function ($item) {
+                            return [
+                                '_value' => (string)($item['code'] ?? null),
+                                '_attributes' => [
+                                    'from' => (string)($item['from'] ?? null),
+                                    'price' => (string)($item['price'] ?? null),
+                                    'percentDiscount' => (string)($item['percentDiscount'] ?? null),
+                                    'quantity' => (string)($item['quantity'] ?? null),
+                                ]
+                            ];
+                        }, $element['main_items'] ?? []),
+                    ],
+                    'gratis_items' => [
+                        'akronim' => array_map(function ($item) {
+                            return [
+                                '_value' => (string)($item['code'] ?? null),
+                                '_attributes' => [
+                                    'from' => (string)($item['from'] ?? null),
+                                    'price' => (string)($item['price'] ?? null),
+                                    'percentDiscount' => (string)($item['percentDiscount'] ?? null),
+                                    'quantity' => (string)($item['quantity'] ?? null),
+                                ]
+                            ];
+                        }, $element['gratis_items'] ?? []),
+                    ],
+                    'discounts' => [
+                        'discount' => array_map(function ($item) {
+                            return [
+                                '_value' => (string)($item['percent'] ?? null),
+                                '_attributes' => [
+                                    'from' => (string)($item['from'] ?? null),
+                                ]
+                            ];
+                        }, $element['discounts'] ?? []),
+                    ],
+
+                ];
+            }
+        }
+        return $this->try(__FUNCTION__, [['xml' => $this->convertToXml($processed, 'promotion', 'promotions')]]);
     }
 
     /**
@@ -544,7 +601,36 @@ class Catalog extends CatalogFactory
      */
     public function SetOpenPackage(array $data): string
     {
-        // TODO: Implement SetOpenPackage() method.
+        $processed = [];
+        if (!empty($data)) {
+            foreach ($data as $element) {
+                $processed[] = [
+                    'code' => (string)($element['code'] ?? null),
+                    'external_id' => (string)($element['external_id'] ?? null),
+                    'product_name' => [
+                        '_cdata' => (string)($element['product_name'] ?? null),
+                    ],
+                    'product_description' => [
+                        '_cdata' => (string)($element['product_description'] ?? null)
+                    ],
+                    'package_content' => [
+                        'code' => array_map(function ($item) {
+                            return [
+                                '_attributes' => [
+                                    'group_id' => (string)($item['group_id'] ?? null),
+                                    'group_name' => (string)($item['group_name'] ?? null),
+                                    'group_min_choices' => (string)($item['group_min_choices'] ?? null),
+                                    'group_max_choices' => (string)($item['group_max_choices'] ?? null),
+                                    'quantity' => (string)($item['quantity'] ?? null),
+                                ],
+                                '_value' => (string)($item['code'] ?? null)
+                            ];
+                        }, $element['package_content'] ?? [])
+                    ]
+                ];
+            }
+        }
+        return $this->try(__FUNCTION__, [['xml' => $this->convertToXml($processed, 'product', 'products')]]);
     }
 
     /**
@@ -554,7 +640,31 @@ class Catalog extends CatalogFactory
      */
     public function SetOpenPackageGroups(array $data): array
     {
-        // TODO: Implement SetOpenPackageGroups() method.
+        $processed = [];
+        if (!empty($data)) {
+            foreach ($data as $element) {
+                $processed[] = [
+                    'id' => (string)($element['id'] ?? null),
+                    'name' => (string)($element['name'] ?? null),
+                    'min' => (string)($element['min'] ?? null),
+                    'max' => (string)($element['max'] ?? null),
+                    'max_quantity' => (string)($element['max_quantity'] ?? null),
+                    'max_quantity_type' => (string)($element['max_quantity_type'] ?? null),
+                    'include_discount' => (string)($element['include_discount'] ?? null),
+                ];
+            }
+        }
+        var_dump($this->convertToXml($processed, 'group', 'groups'));
+        $response = $this->try(__FUNCTION__, [['xml' => $this->convertToXml($processed, 'category', 'categories')]]);
+        $xml = $this->convertToXml($response);
+        $processed = [];
+        foreach ($xml->xpath('group') as $group) {
+            $processed[] = [
+                'id' => $group['id'] ?? null,
+                'name' => $group['name'] ?? null
+            ];
+        }
+        return $processed;
     }
 
     /**

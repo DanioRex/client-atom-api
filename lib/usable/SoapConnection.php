@@ -2,6 +2,7 @@
 
 namespace DanioRex\AtomApiBuild;
 
+use ErrorException;
 use SoapClient;
 use SoapFault;
 
@@ -65,7 +66,7 @@ class SoapConnection
     /**
      * @param string $method
      * @param array $params
-     * @return string|null
+     * @return string
      */
     protected function try(string $method, array $params = []): string
     {
@@ -74,7 +75,7 @@ class SoapConnection
             try {
                 array_unshift($params, $this->auth);
                 $response = $this->client->__soapCall($method, $params);
-            } catch (SoapFault $e) {
+            } catch (ErrorException $e) {
                 $attempts++;
                 sleep(1);
                 if ($attempts == $this->max_attempts) {

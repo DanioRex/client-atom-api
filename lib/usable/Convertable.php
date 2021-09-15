@@ -29,13 +29,13 @@ trait Convertable
      * @param string $xml
      * @return SimpleXMLElement
      */
-    protected function convertToXmlElement(string $xml): SimpleXMLElement
+    protected function convertToXmlElement(string $xml): ?SimpleXMLElement
     {
         try {
             return (new SimpleXMLElement($xml));
         } catch (Exception $e) {
             error_log($e->getMessage());
-            die();
+            return null;
         }
     }
 }

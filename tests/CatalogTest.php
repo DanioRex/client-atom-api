@@ -14,8 +14,8 @@ class CatalogTest extends TestCase
         parent::__construct($name, $data, $dataName);
         $this->catalog = new Catalog(
             'http://idesign.atomstore.pl/atom_api/wsdl/atom_api',
-            'dmazur',
-            ']W:(YkFLfj'
+            'admin',
+            'admin'
         );
     }
 
@@ -95,27 +95,49 @@ class CatalogTest extends TestCase
 
     public function testSetCategories()
     {
-        $this->catalog->SetCategories([
+        $response = $this->catalog->SetCategories([
             [
-                'id' => 'test_id',
+                'id' => 'kod_p_1',
                 'name' => [
-                    'eng' => 'test_eng'
+                    'default' => 'Muzyka'
                 ],
-                'hidden' => true,
+                'pid' => ''
             ],
             [
+                'id' => 'kod_p_2',
                 'name' => [
-                    'default' => 'test_pl',
-                    'eng' => 'test_eng'
+                    'default' => 'Książka'
                 ],
-                'hidden' => true,
+                'pid' => ''
+            ],
+            [
+                'id' => 'kod_m_1',
+                'name' => [
+                    'default' => 'Klasyka'
+                ],
+                'pid' => 'kod_p_1'
+            ],
+            [
+                'id' => 'kod_m_2',
+                'name' => [
+                    'default' => 'Pop',
+                    'eng' => 'Britpop'
+                ],
+                'pid' => 'kod_p_1',
+                'hidden' => 0,
+                'image_base64' => '...',
+                'seo_name' => 'Muzyka pop',
+                'seo_title' => 'test SEO title',
+                'seo_keywords' => 'test,SEO,keywords',
+                'seo_description' => 'test SEO description'
             ]
         ]);
+        $this->assertEquals('OK', $response);
     }
 
     public function testSetCombinations()
     {
-        $this->catalog->SetCombinations([
+        $response = $this->catalog->SetCombinations([
             [
                 'code' => 'test_1'
             ],
@@ -126,11 +148,12 @@ class CatalogTest extends TestCase
                 ]
             ]
         ]);
+        $this->assertEquals('OK', $response);
     }
 
     public function testSetGratis()
     {
-        $this->catalog->SetGratis([
+        $response = $this->catalog->SetGratis([
             [
                 'type' => 'quantity_discount',
                 'main_items' => [
@@ -204,11 +227,12 @@ class CatalogTest extends TestCase
                 ]
             ]
         ]);
+        $this->assertEquals('OK', $response);
     }
 
     public function testSetOpenPackage()
     {
-        $this->catalog->SetOpenPackage([
+        $response = $this->catalog->SetOpenPackage([
             [
                 'code' => 'TB-CS074',
                 'external_id' => 'RR34BHCSPOVC',
@@ -234,11 +258,12 @@ class CatalogTest extends TestCase
                 ]
             ]
         ]);
+        $this->assertEquals('OK', $response);
     }
 
     public function testSetOpenPackageGroups()
     {
-        $this->catalog->SetOpenPackageGroups([
+        $response = $this->catalog->SetOpenPackageGroups([
             [
                 'id' => 123,
                 'name' => 'Wybierz krawat',
@@ -249,5 +274,185 @@ class CatalogTest extends TestCase
                 'include_discount' => 1
             ]
         ]);
+        $this->assertIsArray($response);
+        if (is_array($response)) {
+            foreach ($response as $group) {
+                $this->assertArrayHasKey('id', $group);
+                $this->assertArrayHasKey('name', $group);
+            }
+        }
+    }
+
+    public function testSetOpinions()
+    {
+        $response = $this->catalog->SetOpinions([
+            [
+                'code' => 'aa8f3ifhf',
+                'username' => 'Maciej A.',
+                'email' => 'maciej.a@atomstore.pl',
+                'content' => 'bardzo udany produkt',
+                'note' => 5,
+                'status' => 1,
+                'benefits' => 'benefity',
+                'defects' => 'urwana rączka'
+            ],
+            [
+                'external_id' => 'jh3829f',
+                'username' => 'maciek',
+                'email' => 'maciej@klex.pl',
+                'content' => 'ten kolor na zdjęciu wyglądał inaczej',
+                'note' => 3
+            ]
+        ]);
+        $this->assertEquals('OK', $response);
+    }
+
+    public function testSetPrices()
+    {
+        $response = $this->catalog->SetPrices([
+            [
+                'code' => 'kkk_1',
+                'price_netto' => 12.1234
+            ],
+            [
+                'code' => 'kkk_2',
+                'price_brutto' => 99.99,
+                'vat_rate' => 23
+            ],
+            [
+                'code' => 'kkk_3',
+                'price_netto' => 12.1234,
+                'vat_rate' => 23,
+                'purchase_price' => 80.50,
+                'suggested_price' => 115
+            ],
+            [
+                'code' => 'kkk_4',
+                'price_netto' => 7.1234,
+                'price_list_id' => 2
+            ],
+            [
+                'code' => 'kkk_5',
+                'price_promo' => 10.1234,
+                'name' => 'wyjątkowe okazje'
+            ],
+            [
+                'code' => 'kkk_6',
+                'price_promo_brutto' => 11,
+                'vat_rate' => 23
+            ],
+            [
+                'code' => 'kkk_7',
+                'price_promo' => 10.1234,
+                'mainpage' => 1,
+                'date_from' => '2015-09-01',
+                'date_to' => '2015-09-15'
+            ],
+            [
+                'code' => 'kkk_8',
+                'price_promo' => 0
+            ],
+            [
+                'code' => 'kkk_9',
+                'price_promo_brutto' => 0
+            ],
+            [
+                'code' => 'kkk_10',
+                'price_promo' => 5.4321,
+                'stores' => '1,2',
+                'sale_name' => [
+                    'quantity_to' => 0,
+                    'name' => 'Gorąca jesień'
+                ],
+                'date_from' => '2015-09-01',
+                'date_to' => '2015-09-15'
+            ],
+            [
+                'code' => 'kkk_11',
+                'price_promo' => 0,
+                'sale_name' => null
+            ],
+            [
+                'external_id' => 'vsh38v39h',
+                'price_promo' => 99.99
+            ]
+        ]);
+        $this->assertEquals('OK', $response);
+    }
+
+    public function testSetProducers()
+    {
+        $response = $this->catalog->SetProducers([
+            [
+                'name' => 'ABC',
+                'desc' => 'testowy opis',
+                'logo' => '...'
+            ],
+            [
+                'id' => 123,
+                'name' => 'DEF',
+                'desc' => ''
+            ],
+            [
+                'id' => 124,
+                'delete' => 1
+            ]
+        ]);
+        $this->assertIsArray($response);
+        if (is_array($response)) {
+            foreach ($response as $producer) {
+                $this->assertArrayHasKey('id', $producer);
+                $this->assertArrayHasKey('name', $producer);
+            }
+        }
+    }
+
+    public function testSetProductQuantities()
+    {
+        $response = $this->catalog->SetProductQuantities([
+            [
+                'code' => 'kkk_111',
+                'quantity' => 14,
+                'purchase_price' => 123.45
+            ],
+            [
+                'code' => 'kkk_222',
+                'status_name' => 'Przedsprzedaż'
+            ],
+            [
+                'code' => 'kkk_333',
+                'quantity' => 14,
+                'status_name' => 'Przedsprzedaż'
+            ],
+            [
+                'code' => 'kkk_111',
+                'quantity' => 19,
+                'inventory_supplier' => 'Dostawca X',
+                'purchase_price' => 234.56
+            ],
+            [
+                'code' => 'kkk_444',
+                'quantity' => 14,
+                'inventory_supplier' => 'Dostawca X',
+                'status_name' => 'Dostępny wkrótce'
+            ],
+            [
+                'code' => 'kkk_555',
+                'auto_status' => 1
+            ],
+            [
+                'external_id' => 'k298324723',
+                'quantity' => 13
+            ],
+            [
+                'product_id' => 15248,
+                'quantity' => 0
+            ],
+            [
+                'combination_id' => 52100,
+                'quantity' => 0
+            ]
+        ]);
+        $this->assertEquals('OK', $response);
     }
 }

@@ -491,25 +491,25 @@ class Catalog extends CatalogFactory
         $processed = [];
         if (!empty($data)) {
             foreach ($data as $element) {
-                $processed[] = [
-                    'id' => $element['id'] ?? null,
-                    'name' => isset($element['name']) ? (is_array($element['name']) ? $this->setTranslations($element['name']) : $element['name']) : null,
-                    'pid' => $element['pid'] ?? null,
-                    'hidden' => $element['hidden'] ?? null,
-                    'image_base64' => $element['image_base64'] ?? null,
-                    'seo_name' => [
-                        '_cdata' => (string)($element['seo_name'] ?? null)
-                    ],
-                    'seo_title' => [
-                        '_cdata' => (string)($element['seo_title'] ?? null)
-                    ],
-                    'seo_keywords' => [
-                        '_cdata' => (string)($element['seo_keywords'] ?? null)
-                    ],
-                    'seo_description' => [
-                        '_cdata' => (string)($element['seo_description'] ?? null)
-                    ]
+                $to_array = [];
+                if (isset($element['id'])) $to_array['id'] = (string)$element['id'];
+                if (isset($element['name'])) $to_array['name'] = is_array($element['name']) ? $this->setTranslations($element['name']) : $element['name'];
+                if (isset($element['pid'])) $to_array['pid'] = (string)$element['pid'];
+                if (isset($element['hidden'])) $to_array['hidden'] = (string)$element['hidden'];
+                if (isset($element['image_base64'])) $to_array['image_base64'] = (string)$element['image_base64'];
+                if (isset($element['seo_name'])) $to_array['seo_name'] = [
+                    '_cdata' => (string)$element['seo_name']
                 ];
+                if (isset($element['seo_title'])) $to_array['seo_title'] = [
+                    '_cdata' => (string)$element['seo_title']
+                ];
+                if (isset($element['seo_keywords'])) $to_array['seo_keywords'] = [
+                    '_cdata' => (string)$element['seo_keywords']
+                ];
+                if (isset($element['seo_description'])) $to_array['seo_description'] = [
+                    '_cdata' => (string)$element['seo_description']
+                ];
+                array_push($processed, $to_array);
             }
         }
         return $this->try(__FUNCTION__, [['xml' => $this->convertToXml($processed, 'category', 'categories')]]);
@@ -528,7 +528,7 @@ class Catalog extends CatalogFactory
                 $processed[] = [
                     'code' => isset($element['code']) ? (is_array($element['code']) ? array_map(function ($item) {
                         return $item;
-                    }, $element['code']) : $element['code']) : null
+                    }, $element['code'] ?? []) : $element['code']) : null
                 ];
             }
         }
@@ -545,50 +545,35 @@ class Catalog extends CatalogFactory
         $processed = [];
         if (!empty($data)) {
             foreach ($data as $element) {
-                $processed[] = [
-                    '_attributes' => [
-                        'type' => (string)($element['type'] ?? null),
-                        'from' => (string)($element['from'] ?? null),
-                        'multiplication' => (string)($element['multiplication'] ?? null)
-                    ],
-                    'main_items' => [
-                        'akronim' => array_map(function ($item) {
-                            return [
-                                '_value' => (string)($item['code'] ?? null),
-                                '_attributes' => [
-                                    'from' => (string)($item['from'] ?? null),
-                                    'price' => (string)($item['price'] ?? null),
-                                    'percentDiscount' => (string)($item['percentDiscount'] ?? null),
-                                    'quantity' => (string)($item['quantity'] ?? null),
-                                ]
-                            ];
-                        }, $element['main_items'] ?? []),
-                    ],
-                    'gratis_items' => [
-                        'akronim' => array_map(function ($item) {
-                            return [
-                                '_value' => (string)($item['code'] ?? null),
-                                '_attributes' => [
-                                    'from' => (string)($item['from'] ?? null),
-                                    'price' => (string)($item['price'] ?? null),
-                                    'percentDiscount' => (string)($item['percentDiscount'] ?? null),
-                                    'quantity' => (string)($item['quantity'] ?? null),
-                                ]
-                            ];
-                        }, $element['gratis_items'] ?? []),
-                    ],
-                    'discounts' => [
-                        'discount' => array_map(function ($item) {
-                            return [
-                                '_value' => (string)($item['percent'] ?? null),
-                                '_attributes' => [
-                                    'from' => (string)($item['from'] ?? null),
-                                ]
-                            ];
-                        }, $element['discounts'] ?? []),
-                    ],
-
-                ];
+                $to_array = [];
+                if (isset($element['type'])) $to_array['_attributes']['type'] = (string)$element['type'];
+                if (isset($element['from'])) $to_array['_attributes']['from'] = (string)$element['from'];
+                if (isset($element['multiplication'])) $to_array['_attributes']['multiplication'] = (string)$element['multiplication'];
+                if (isset($element['main_items'])) $to_array['main_items']['akronim'] = array_map(function ($item) {
+                    $return = [];
+                    if (isset($item['from'])) $return['_attributes']['from'] = (string)$item['from'];
+                    if (isset($item['price'])) $return['_attributes']['price'] = (string)$item['price'];
+                    if (isset($item['percentDiscount'])) $return['_attributes']['percentDiscount'] = (string)$item['percentDiscount'];
+                    if (isset($item['quantity'])) $return['_attributes']['quantity'] = (string)$item['quantity'];
+                    if (isset($item['code'])) $return['_value'] = (string)$item['code'];
+                    return $return;
+                }, $element['main_items'] ?? []);
+                if (isset($element['gratis_items'])) $to_array['gratis_items']['akronim'] = array_map(function ($item) {
+                    $return = [];
+                    if (isset($item['from'])) $return['_attributes']['from'] = (string)$item['from'];
+                    if (isset($item['price'])) $return['_attributes']['price'] = (string)$item['price'];
+                    if (isset($item['percentDiscount'])) $return['_attributes']['percentDiscount'] = (string)$item['percentDiscount'];
+                    if (isset($item['quantity'])) $return['_attributes']['quantity'] = (string)$item['quantity'];
+                    if (isset($item['code'])) $return['_value'] = (string)$item['code'];
+                    return $return;
+                }, $element['gratis_items'] ?? []);
+                if (isset($element['discounts'])) $to_array['discounts']['discount'] = array_map(function ($item) {
+                    $return = [];
+                    if (isset($item['from'])) $return['_attributes']['from'] = (string)$item['from'];
+                    if (isset($item['percent'])) $return['_value'] = (string)$item['percent'];
+                    return $return;
+                }, $element['discounts'] ?? []);
+                array_push($processed, $to_array);
             }
         }
         return $this->try(__FUNCTION__, [['xml' => $this->convertToXml($processed, 'promotion', 'promotions')]]);
@@ -604,30 +589,28 @@ class Catalog extends CatalogFactory
         $processed = [];
         if (!empty($data)) {
             foreach ($data as $element) {
-                $processed[] = [
-                    'code' => (string)($element['code'] ?? null),
-                    'external_id' => (string)($element['external_id'] ?? null),
-                    'product_name' => [
-                        '_cdata' => (string)($element['product_name'] ?? null),
-                    ],
-                    'product_description' => [
-                        '_cdata' => (string)($element['product_description'] ?? null)
-                    ],
-                    'package_content' => [
-                        'code' => array_map(function ($item) {
-                            return [
-                                '_attributes' => [
-                                    'group_id' => (string)($item['group_id'] ?? null),
-                                    'group_name' => (string)($item['group_name'] ?? null),
-                                    'group_min_choices' => (string)($item['group_min_choices'] ?? null),
-                                    'group_max_choices' => (string)($item['group_max_choices'] ?? null),
-                                    'quantity' => (string)($item['quantity'] ?? null),
-                                ],
-                                '_value' => (string)($item['code'] ?? null)
-                            ];
-                        }, $element['package_content'] ?? [])
-                    ]
+                $to_array = [];
+                if (isset($element['code'])) $to_array['code'] = (string)$element['code'];
+                if (isset($element['external_id'])) $to_array['external_id'] = (string)$element['external_id'];
+                if (isset($element['product_name'])) $to_array['product_name'] = [
+                    '_cdata' => (string)$element['product_name']
                 ];
+                if (isset($element['product_description'])) $to_array['product_description'] = [
+                    '_cdata' => (string)$element['product_description']
+                ];
+                if (isset($element['package_content'])) $to_array['package_content'] = [
+                    'code' => array_map(function ($item) {
+                        $return = [];
+                        if (isset($item['group_id'])) $return['_attributes']['group_id'] = (string)$item['group_id'];
+                        if (isset($item['group_name'])) $return['_attributes']['group_name'] = (string)$item['group_name'];
+                        if (isset($item['group_min_choices'])) $return['_attributes']['group_min_choices'] = (string)$item['group_min_choices'];
+                        if (isset($item['group_max_choices'])) $return['_attributes']['group_max_choices'] = (string)$item['group_max_choices'];
+                        if (isset($item['quantity'])) $return['_attributes']['quantity'] = (string)$item['quantity'];
+                        if (isset($item['code'])) $return['_value'] = (string)$item['code'];
+                        return $return;
+                    }, $element['package_content'])
+                ];
+                array_push($processed, $to_array);
             }
         }
         return $this->try(__FUNCTION__, [['xml' => $this->convertToXml($processed, 'product', 'products')]]);
@@ -643,26 +626,28 @@ class Catalog extends CatalogFactory
         $processed = [];
         if (!empty($data)) {
             foreach ($data as $element) {
-                $processed[] = [
-                    'id' => (string)($element['id'] ?? null),
-                    'name' => (string)($element['name'] ?? null),
-                    'min' => (string)($element['min'] ?? null),
-                    'max' => (string)($element['max'] ?? null),
-                    'max_quantity' => (string)($element['max_quantity'] ?? null),
-                    'max_quantity_type' => (string)($element['max_quantity_type'] ?? null),
-                    'include_discount' => (string)($element['include_discount'] ?? null),
-                ];
+                $to_array = [];
+                if (isset($element['id'])) $to_array['id'] = (string)$element['id'];
+                if (isset($element['name'])) $to_array['name'] = (string)$element['name'];
+                if (isset($element['min'])) $to_array['min'] = (string)$element['min'];
+                if (isset($element['max'])) $to_array['max'] = (string)$element['max'];
+                if (isset($element['max_quantity'])) $to_array['max_quantity'] = (string)$element['max_quantity'];
+                if (isset($element['max_quantity_type'])) $to_array['max_quantity_type'] = (string)$element['max_quantity_type'];
+                if (isset($element['include_discount'])) $to_array['include_discount'] = (string)$element['include_discount'];
+                array_push($processed, $to_array);
             }
         }
-        var_dump($this->convertToXml($processed, 'group', 'groups'));
         $response = $this->try(__FUNCTION__, [['xml' => $this->convertToXml($processed, 'category', 'categories')]]);
-        $xml = $this->convertToXml($response);
+        if ($response == 'EMPTY') return [];
+        $xml = $this->convertToXmlElement($response);
         $processed = [];
-        foreach ($xml->xpath('group') as $group) {
-            $processed[] = [
-                'id' => $group['id'] ?? null,
-                'name' => $group['name'] ?? null
-            ];
+        if (isset($xml)) {
+            foreach ($xml->xpath('group') as $group) {
+                $processed[] = [
+                    'id' => $group->id->__toString() ?? null,
+                    'name' => $group->name->__toString() ?? null
+                ];
+            }
         }
         return $processed;
     }
@@ -674,7 +659,29 @@ class Catalog extends CatalogFactory
      */
     public function SetOpinions(array $data): string
     {
-        // TODO: Implement SetOpinions() method.
+        $processed = [];
+        if (!empty($data)) {
+            foreach ($data as $element) {
+                $to_array = [];
+                if (isset($element['code'])) $to_array['code'] = (string)$element['code'];
+                if (isset($element['external_id'])) $to_array['external_id'] = (string)$element['external_id'];
+                if (isset($element['username'])) $to_array['username'] = (string)$element['username'];
+                if (isset($element['email'])) $to_array['email'] = (string)$element['email'];
+                if (isset($element['content'])) $to_array['content'] = [
+                    '_cdata' => (string)$element['content']
+                ];
+                if (isset($element['note'])) $to_array['note'] = (string)$element['note'];
+                if (isset($element['status'])) $to_array['status'] = (string)$element['status'];
+                if (isset($element['benefits'])) $to_array['benefits'] = [
+                    '_cdata' => (string)$element['benefits']
+                ];
+                if (isset($element['defects'])) $to_array['defects'] = [
+                    '_cdata' => (string)$element['defects']
+                ];
+                array_push($processed, $to_array);
+            }
+        }
+        return $this->try(__FUNCTION__, [['xml' => $this->convertToXml($processed, 'opinion', 'opinions')]]);
     }
 
     /**
@@ -684,7 +691,43 @@ class Catalog extends CatalogFactory
      */
     public function SetPrices(array $data): string
     {
-        // TODO: Implement SetPrices() method.
+        $processed = [];
+        if (!empty($data)) {
+            foreach ($data as $element) {
+                $to_array = [];
+                if (isset($element['code'])) $to_array['code'] = (string)$element['code'];
+                if (isset($element['price_brutto'])) $to_array['price_brutto'] = (string)$element['price_brutto'];
+                if (isset($element['price_netto'])) $to_array['price_netto'] = (string)$element['price_netto'];
+                if (isset($element['vat_rate'])) $to_array['vat_rate'] = (string)$element['vat_rate'];
+                if (isset($element['purchase_price'])) $to_array['purchase_price'] = (string)$element['purchase_price'];
+                if (isset($element['suggested_price'])) $to_array['suggested_price'] = (string)$element['suggested_price'];
+                if (isset($element['price_list_id'])) $to_array['price_list_id'] = (string)$element['price_list_id'];
+                if (isset($element['name'])) $to_array['name'] = [
+                    '_cdata' => (string)$element['name']
+                ];
+                if (isset($element['price_promo_brutto'])) $to_array['price_promo_brutto'] = (string)$element['price_promo_brutto'];
+                if (isset($element['price_promo'])) $to_array['price_promo'] = (string)$element['price_promo'];
+                if (isset($element['mainpage'])) $to_array['mainpage'] = (string)$element['mainpage'];
+                if (isset($element['date_from'])) $to_array['date_from'] = (string)$element['date_from'];
+                if (isset($element['date_to'])) $to_array['date_to'] = (string)$element['date_to'];
+                if (isset($element['stores'])) $to_array['stores'] = (string)$element['stores'];
+                if (isset($element['sale_name'])) $to_array['sale_name'] = [
+                    '_attributes' => [
+                        'quantity_to' => (string)($element['sale_name']['quantity_to'] ?? null)
+                    ],
+                    '_value' => (string)($element['sale_name']['name'] ?? null)
+                ];
+                if (isset($element['price_promo'])) $to_array['price_promo'] = (string)$element['price_promo'];
+                if (isset($element['sale_name'])) $to_array['sale_name'] = [
+                    '_attributes' => [
+                        'quantity_to' => (string)($element['sale_name']['quantity_to'] ?? null)
+                    ],
+                    '_value' => (string)($element['sale_name']['name'] ?? null)
+                ];
+                array_push($processed, $to_array);
+            }
+        }
+        return $this->try(__FUNCTION__, [['xml' => $this->convertToXml($processed, 'price', 'prices')]]);
     }
 
     /**
@@ -694,7 +737,32 @@ class Catalog extends CatalogFactory
      */
     public function SetProducers(array $data): array
     {
-        // TODO: Implement SetProducers() method.
+        $processed = [];
+        if (!empty($data)) {
+            foreach ($data as $element) {
+                $to_array = [];
+                if (isset($element['id'])) $to_array['id'] = (string)$element['id'];
+                if (isset($element['name'])) $to_array['name'] = (string)$element['name'];
+                if (isset($element['desc'])) $to_array['desc'] = [
+                    '_cdata' => (string)$element['desc']
+                ];
+                if (isset($element['logo'])) $to_array['logo'] = (string)$element['logo'];
+                if (isset($element['delete'])) $to_array['delete'] = (string)$element['delete'];
+                array_push($processed, $to_array);
+            }
+        }
+        $response = $this->try(__FUNCTION__, [['xml' => $this->convertToXml($processed, 'producer', 'producers')]]);
+        $xml = $this->convertToXmlElement($response);
+        $processed = [];
+        if (isset($xml)) {
+            foreach ($xml->xpath('savedProducer') as $savedProducer) {
+                $processed[] = [
+                    'id' => $savedProducer->id->__toString(),
+                    'name' => $savedProducer->name->__toString()
+                ];
+            }
+        }
+        return $processed;
     }
 
     /**
@@ -704,7 +772,23 @@ class Catalog extends CatalogFactory
      */
     public function SetProductQuantities(array $data): string
     {
-        // TODO: Implement SetProductQuantities() method.
+        $processed = [];
+        if (!empty($data)) {
+            foreach ($data as $element) {
+                $to_array = [];
+                if (isset($element['code'])) $to_array['code'] = (string)$element['code'];
+                if (isset($element['external_id'])) $to_array['external_id'] = (string)$element['external_id'];
+                if (isset($element['product_id'])) $to_array['product_id'] = (string)$element['product_id'];
+                if (isset($element['combination_id'])) $to_array['combination_id'] = (string)$element['combination_id'];
+                if (isset($element['quantity'])) $to_array['quantity'] = (string)$element['quantity'];
+                if (isset($element['purchase_price'])) $to_array['purchase_price'] = (string)$element['purchase_price'];
+                if (isset($element['status_name'])) $to_array['status_name'] = (string)$element['status_name'];
+                if (isset($element['inventory_supplier'])) $to_array['inventory_supplier'] = (string)$element['inventory_supplier'];
+                if (isset($element['auto_status'])) $to_array['auto_status'] = (string)$element['auto_status'];
+                array_push($processed, $to_array);
+            }
+        }
+        return $this->try(__FUNCTION__, [['xml' => $this->convertToXml($processed, 'price', 'prices')]]);
     }
 
     /**

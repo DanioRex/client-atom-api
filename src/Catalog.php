@@ -798,7 +798,208 @@ class Catalog extends CatalogFactory
      */
     public function SetProducts(array $data): string
     {
-        // TODO: Implement SetProducts() method.
+        $processed = [];
+        if (!empty($data)) {
+            foreach ($data as $element) {
+                $to_array = [];
+                if (isset($element['product_id'])) $to_array['product_id'] = (string)$element['product_id'];
+                if (isset($element['external_id'])) $to_array['external_id'] = (string)$element['external_id'];
+                if (isset($element['code'])) $to_array['code'] = (string)$element['code'];
+                if (isset($element['product_name'])) $to_array['product_name'] = is_array($element['product_name']) ? $this->setTranslations($element['product_name'], true) : ['_cdata' => $element['product_name']];
+                if (isset($element['product_description'])) $to_array['product_description'] = is_array($element['product_description']) ? $this->setTranslations($element['product_description'], true) : ['_cdata' => $element['product_description']];
+                if (isset($element['producer_name'])) $to_array['producer_name'] = [
+                    '_cdata' => (string)$element['producer_name']
+                ];
+                if (isset($element['producer_id'])) $to_array['producer_id'] = (string)$element['producer_id'];
+                if (isset($element['category']) && is_array($element['category'])) {
+                    $to_array['category'] = [];
+                    foreach ($element['category'] as $category) {
+                        $tmp_category = [];
+                        if (isset($category['main'])) $tmp_category['_attributes']['main'] = (string)($category['main'] ?? null);
+                        if (isset($category['aid'])) $tmp_category['_attributes']['aid'] = (string)($category['aid'] ?? null);
+                        $tmp_category['_cdata'] = (string)($category['name'] ?? (!is_array($category) ? $category : null));
+                        array_push($to_array['category'], $tmp_category);
+                    }
+                } elseif (isset($element['category'])) {
+                    $to_array['category'] = [
+                        '_cdata' => (string)$element['category']
+                    ];
+                }
+                if (isset($element['category_id']) && is_array($element['category_id'])) {
+                    $to_array['category_id'] = [];
+                    foreach ($element['category_id'] as $category) {
+                        $tmp_category = [];
+                        if (isset($category['main'])) $tmp_category['_attributes']['main'] = (string)($category['main'] ?? null);
+                        if (isset($category['aid'])) $tmp_category['_attributes']['aid'] = (string)($category['aid'] ?? null);
+                        $tmp_category['_value'] = (string)($category['id'] ?? (!is_array($category) ? $category : null));
+                        array_push($to_array['category_id'], $tmp_category);
+                    }
+                } elseif (isset($element['category_id'])) {
+                    $to_array['category_id'] = (string)$element['category_id'];
+                }
+                if (isset($element['allow_multicategories'])) $to_array['allow_multicategories'] = [
+                    '_attributes' => [
+                        'require_any' => (string)($element['allow_multicategories']['require_any'] ?? null)
+                    ],
+                    '_value' => (string)($element['allow_multicategories']['allow'] ?? (!is_array($element['allow_multicategories']) ? $element['allow_multicategories'] : null))
+                ];
+                if (isset($element['attributes'])) $to_array['attributes']['attribute'] = array_map(function ($item) {
+                    $tmp = [];
+                    if (isset($item['code'])) $tmp['code'] = (string)($item['code'] ?? null);
+                    if (isset($item['name'])) $tmp['name'] = [
+                        '_cdata' => (string)($item['name'] ?? null)
+                    ];
+                    if (isset($item['code_value'])) $tmp['code_value'] = (string)($item['code_value'] ?? null);
+                    if (isset($item['value'])) {
+                        if (is_array($item['value'])) {
+                            $tmp['value'] = [
+                                '_attributes' => [
+                                    'delete' => (string)($item['value']['delete'] ?? null)
+                                ],
+                                '_cdata' => (string)($item['value']['value'] ?? null)
+                            ];
+                        } else {
+                            $tmp['value'] = [
+                                '_cdata' => (string)($item['value'] ?? null)
+                            ];
+                        }
+                    }
+                    return $tmp;
+                }, $element['attributes']);
+                if (isset($element['multi_attrs'])) $to_array['multi_attrs']['multi_attr'] = array_map(function ($item) {
+                    $tmp = [];
+                    if (isset($item['code'])) $tmp['code'] = $item['code'];
+                    if (isset($item['name'])) $tmp['name'] = is_array($item['name']) ? $this->setTranslations($item['name'], true) : ['_cdata' => $item['name']];
+                    if (isset($item['multi_values'])) $tmp['multi_values']['multi_value'] = array_map(function ($inner_item) {
+                        $inner_tmp = [];
+                        if (isset($inner_item['code_value'])) $inner_tmp['code_value'] = $inner_item['code_value'];
+                        if (isset($inner_item['value'])) $inner_tmp['value'] = is_array($inner_item['value']) ? $this->setTranslations($inner_item['value'], true) : ['_cdata' => $inner_item['value']];
+                        return $inner_tmp;
+                    }, $item['multi_values']);
+                    return $tmp;
+                }, $element['multi_attrs']);
+                if (isset($element['price_netto'])) $to_array['price_netto'] = (string)$element['price_netto'];
+                if (isset($element['price_brutto'])) $to_array['price_brutto'] = (string)$element['price_brutto'];
+                if (isset($element['ebook'])) $to_array['ebook'] = (string)$element['ebook'];
+                if (isset($element['purchase_price'])) $to_array['purchase_price'] = (string)$element['purchase_price'];
+                if (isset($element['vat_rate'])) $to_array['vat_rate'] = (string)$element['vat_rate'];
+                if (isset($element['quantity'])) $to_array['quantity'] = (string)$element['quantity'];
+                if (isset($element['new'])) $to_array['new'] = (string)$element['new'];
+                if (isset($element['recommended'])) $to_array['recommended'] = (string)$element['recommended'];
+                if (isset($element['bestseller'])) $to_array['bestseller'] = (string)$element['bestseller'];
+                if (isset($element['bestseller_weight'])) $to_array['bestseller_weight'] = (string)$element['bestseller_weight'];
+                if (isset($element['weight'])) $to_array['weight'] = (string)$element['weight'];
+                if (isset($element['active'])) $to_array['active'] = (string)$element['active'];
+                if (isset($element['verified'])) $to_array['verified'] = (string)$element['verified'];
+                if (isset($element['only_gratis'])) $to_array['only_gratis'] = (string)$element['only_gratis'];
+                if (isset($element['only_suppliers'])) $to_array['only_suppliers'] = (string)$element['only_suppliers'];
+                if (isset($element['only_kit'])) $to_array['only_kit'] = (string)$element['only_kit'];
+                if (isset($element['login_request'])) $to_array['login_request'] = (string)$element['login_request'];
+                if (isset($element['suggested_price'])) $to_array['suggested_price'] = (string)$element['suggested_price'];
+                if (isset($element['loyalty_points_price'])) $to_array['loyalty_points_price'] = (string)$element['loyalty_points_price'];
+                if (isset($element['loyalty_points_addition'])) $to_array['loyalty_points_addition'] = (string)$element['loyalty_points_addition'];
+                if (isset($element['unit'])) $to_array['unit'] = (string)$element['unit'];
+                if (isset($element['item_unit'])) $to_array['item_unit'] = (string)$element['item_unit'];
+                if (isset($element['items_per_package'])) $to_array['items_per_package'] = (string)$element['items_per_package'];
+                if (isset($element['min_order'])) $to_array['min_order'] = (string)$element['min_order'];
+                if (isset($element['tags'])) $to_array['tags'] = is_array($element['tags']) ? $this->setTranslations($element['tags'], true) : ['_cdata' => $element['tags']];
+                if (isset($element['seo_alias'])) $to_array['seo_alias'] = (string)$element['seo_alias'];
+                if (isset($element['seo_title'])) $to_array['seo_title'] = [
+                    '_cdata' => (string)$element['seo_title']
+                ];
+                if (isset($element['seo_keywords'])) $to_array['seo_keywords'] = [
+                    '_cdata' => (string)$element['seo_keywords']
+                ];
+                if (isset($element['seo_description'])) $to_array['seo_description'] = [
+                    '_cdata' => (string)$element['seo_description']
+                ];
+                if (isset($element['related_products'])) $to_array['related_products']['related_product'] = array_map(function ($item) {
+                    return $item;
+                }, $element['related_products']);
+                if (isset($element['custom_weight'])) $to_array['custom_weight'] = (string)$element['custom_weight'];
+                if (isset($element['shipping_individuals'])) $to_array['shipping_individuals']['shipping_method'] = array_map(function ($item) {
+                    $tmp = [];
+                    if (isset($item['id'])) $tmp['id'] = (string)$item['id'];
+                    if (isset($item['price'])) $tmp['price'] = (string)$item['price'];
+                    if (isset($item['gratis'])) $tmp['gratis'] = (string)$item['gratis'];
+                    if (isset($item['exclusion'])) $tmp['exclusion'] = (string)$item['exclusion'];
+                    if (isset($item['delete'])) $tmp['delete'] = (string)$item['delete'];
+                    return $tmp;
+                }, $element['shipping_individuals']);
+                if (isset($element['payment_methods_exclusions'])) $to_array['payment_methods_exclusions']['payment_method_id'] = array_map(function ($item) {
+                    return $item;
+                }, $element['payment_methods_exclusions']);
+                if (isset($element['external_ids'])) $to_array['external_ids']['external_id'] = array_map(function ($item) {
+                    $tmp = [];
+                    if (isset($item['id'])) $tmp['id'] = (string)$item['id'];
+                    if (isset($item['module_key'])) $tmp['module_key'] = (string)$item['module_key'];
+                    return $tmp;
+                }, $element['external_ids']);
+                if (isset($element['package_content'])) $to_array['package_content']['code'] = array_map(function ($item) {
+                    $tmp = [];
+                    if (isset($item['code'])) $tmp['_value'] = (string)$item['code'];
+                    if (isset($item['quantity'])) $tmp['_attributes']['quantity'] = (string)$item['quantity'];
+                    return $tmp;
+                }, $element['package_content']);
+                if (isset($element['ignored_fields'])) $to_array['ignored_fields'] = (string)$element['ignored_fields'];
+                if (isset($element['update'])) $to_array['update'] = (string)$element['update'];
+                if (isset($element['deleted'])) $to_array['deleted'] = (string)$element['deleted'];
+                if (isset($element['service']) && !is_array($element['service'])) $to_array['service'] = (string)$element['service'];
+                if (isset($element['service']['service'])) $to_array['service']['_value'] = (string)$element['service']['service'];
+                if (isset($element['service']['code'])) $to_array['service']['_attributes']['code'] = (string)$element['service']['code'];
+                if (isset($element['files'])) {
+                    if (isset($element['files']['delete_unsent'])) $to_array['files']['_attributes']['delete_unsent'] = $element['files']['delete_unsent'];
+                    $to_array['files']['file'] = $element['files']['file'] ?? array_map(function ($item) {
+                            return $item;
+                        }, $element['files']);
+                }
+                if (isset($element['services'])) $to_array['services']['code'] = array_map(function ($item) {
+                    return [
+                        '_cdata' => $item
+                    ];
+                }, $element['services']);
+                if (isset($element['combinations'])) $to_array['combination']['combination'] = array_map(function ($item) {
+                    $tmp = [];
+                    if (isset($item['code'])) $tmp['code'] = $item['code'];
+                    if (isset($item['price_modifier'])) $tmp['price_modifier'] = $item['price_modifier'];
+                    if (isset($item['price_value'])) $tmp['price_value'] = $item['price_value'];
+                    if (isset($item['purchase_price'])) $tmp['purchase_price'] = $item['purchase_price'];
+                    if (isset($item['suggested_price'])) $tmp['suggested_price'] = $item['suggested_price'];
+                    if (isset($item['active'])) $tmp['active'] = $item['active'];
+                    if (isset($item['verified'])) $tmp['verified'] = $item['verified'];
+                    if (isset($item['attributes'])) $tmp['attributes']['attribute'] = array_map(function ($inner_item) {
+                        $inner_tmp = [];
+                        if (isset($inner_item['name'])) $inner_tmp['name'] = [
+                            '_cdata' => $inner_item['name']
+                        ];
+                        if (isset($inner_item['value'])) $inner_tmp['value'] = [
+                            '_cdata' => $inner_item['value']
+                        ];
+                        return $inner_tmp;
+                    }, $item['attributes']);
+                    if (isset($item['params'])) $tmp['params']['param'] = array_map(function ($inner_item) {
+                        $inner_tmp = [];
+                        if (isset($inner_item['name'])) $inner_tmp['name'] = [
+                            '_cdata' => $inner_item['name']
+                        ];
+                        if (isset($inner_item['value'])) $inner_tmp['value'] = [
+                            '_cdata' => $inner_item['value']
+                        ];
+                        return $inner_tmp;
+                    }, $item['params']);
+                    if (isset($item['image_url'])) $tmp['image_url'] = $item['image_url'];
+                    if (isset($item['external_ids'])) $tmp['external_ids']['external_id'] = array_map(function ($inner_item) {
+                        $inner_tmp = [];
+                        if (isset($inner_item['module_key'])) $inner_tmp['module_key'] = $inner_item['module_key'];
+                        if (isset($inner_item['id'])) $inner_tmp['id'] = $inner_item['id'];
+                        return $inner_tmp;
+                    }, $item['external_ids']);
+                    return $tmp;
+                }, $element['combinations']);
+                array_push($processed, $to_array);
+            }
+        }
+        return $this->try(__FUNCTION__, [['xml' => $this->convertToXml($processed, 'product', 'products')]]);
     }
 
     /**
@@ -808,6 +1009,28 @@ class Catalog extends CatalogFactory
      */
     public function SetProductsImages(array $data): string
     {
-        // TODO: Implement SetProductsImages() method.
+        $processed = [];
+        if (!empty($data)) {
+            foreach ($data as $element) {
+                $to_array = [];
+                if (isset($element['code'])) $to_array['code'] = (string)$element['code'];
+                if (isset($element['product_external_id'])) $to_array['product_external_id'] = (string)$element['product_external_id'];
+                if (isset($element['image_name'])) $to_array['image_name'] = (string)$element['image_name'];
+                if (isset($element['image_content'])) $to_array['image_content'] = (string)$element['image_content'];
+                if (isset($element['image_url'])) $to_array['image_url'] = (string)$element['image_url'];
+                if (isset($element['no_content'])) $to_array['no_content'] = (string)$element['no_content'];
+                if (isset($element['dir'])) $to_array['dir'] = (string)$element['dir'];
+                if (isset($element['image_external_id'])) $to_array['image_external_id'] = (string)$element['image_external_id'];
+                if (isset($element['active'])) $to_array['active'] = (string)$element['active'];
+                if (isset($element['weight'])) $to_array['weight'] = (string)$element['weight'];
+                if (isset($element['allegro'])) $to_array['allegro'] = (string)$element['allegro'];
+                if (isset($element['allegro_miniature'])) $to_array['allegro_miniature'] = (string)$element['allegro_miniature'];
+                if (isset($element['google_merchant'])) $to_array['google_merchant'] = (string)$element['google_merchant'];
+                if (isset($element['stores_by_id'])) $to_array['stores_by_id'] = (string)$element['stores_by_id'];
+                if (isset($element['deleted'])) $to_array['deleted'] = (string)$element['deleted'];
+                array_push($processed, $to_array);
+            }
+        }
+        return $this->try(__FUNCTION__, [['xml' => $this->convertToXml($processed, 'product_image', 'product_images')]]);
     }
 }

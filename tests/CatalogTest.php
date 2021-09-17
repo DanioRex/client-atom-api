@@ -14,8 +14,8 @@ class CatalogTest extends TestCase
         parent::__construct($name, $data, $dataName);
         $this->catalog = new Catalog(
             'http://idesign.atomstore.pl/atom_api/wsdl/atom_api',
-            'admin',
-            'admin'
+            'dmazur',
+            ']W:(YkFLfj'
         );
     }
 
@@ -452,6 +452,311 @@ class CatalogTest extends TestCase
                 'combination_id' => 52100,
                 'quantity' => 0
             ]
+        ]);
+        $this->assertEquals('OK', $response);
+    }
+
+    public function testSetProducts()
+    {
+        $response = $this->catalog->SetProducts([
+            [
+                'code' => 'k50456430806',
+                'product_name' => [
+                    'default' => 'Lampa podłogowa biała',
+                    'eng' => 'White floor lamp'
+                ],
+                'product_description' => [
+                    'default' => '<p>Testowy opis</p>',
+                    'eng' => '<p>test description</p>'
+                ],
+                'producer_name' => 'Zuiver',
+                'category' => [
+                    'Oświetlenie/lampy podłogowe',
+                    [
+                        'main' => 1,
+                        'name' => 'Oświetlenie/oszczędne'
+                    ],
+                    [
+                        'main' => true,
+                        'name' => 'elektro-outlet/Oświetlenie/Lampy'
+                    ]
+                ],
+                'allow_multicategories' => [
+                    'require_any' => 0,
+                    'allow' => 0
+                ],
+                'attributes' => [
+                    [
+                        'code' => 'material',
+                        'name' => 'Materiał',
+                        'code_value' => 'material',
+                        'value' => '100% polyester'
+                    ],
+                    [
+                        'name' => 'Zawartość pudełka',
+                        'value' => [
+                            'value' => 'dodatkowy abażur',
+                            'delete' => true
+                        ]
+                    ]
+                ],
+                'multi_attrs' => [
+                    [
+                        'code' => 'color',
+                        'name' => [
+                            'default' => 'Kolor',
+                            'eng' => 'Color'
+                        ],
+                        'multi_values' => [
+                            [
+                                'code_value' => 'czerwony',
+                                'value' => [
+                                    'default' => 'czerwony',
+                                    'eng' => 'red'
+                                ]
+                            ],
+                            [
+                                'value' => [
+                                    'default' => 'zielony',
+                                    'eng' => 'green'
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'price_netto' => 928.4553,
+                'purchase_price' => 777.8,
+                'vat_rate' => 23,
+                'quantity' => 1,
+                'new' => 0,
+                'recommended' => 0,
+                'bestseller' => 1,
+                'bestseller_weight' => 3,
+                'weight' => 3.9,
+                'active' => 1,
+                'verified' => 1,
+                'only_gratis' => 0,
+                'only_suppliers' => 0,
+                'only_kit' => 0,
+                'login_request' => 0,
+                'suggested_price' => 928.4553,
+                'loyalty_points_price' => 15000,
+                'loyalty_points_addition' => 30,
+                'unit' => 'sztuka',
+                'item_unit' => 'sztuka',
+                'items_per_package' => 5,
+                'min_order' => 1,
+                'tags' => [
+                    'default' => 'nowoczesne oświetlenie,lampy',
+                    'eng' => 'Innovative lighting, lamps'
+                ],
+                'seo_alias' => 'lampa-podlogowa-tripod-wood-biala',
+                'seo_title' => 'test SEO title',
+                'seo_keywords' => 'test,SEO,keywords',
+                'seo_description' => 'test SEO description',
+                'related_products' => [
+                    'k50456430807',
+                    'k50456430808'
+                ],
+                'custom_weight' => '',
+                'shipping_individuals' => [
+                    [
+                        'id' => 12,
+                        'price' => 0,
+                        'gratis' => 0,
+                        'exclusion' => 1
+                    ],
+                    [
+                        'id' => 18,
+                        'delete' => 1
+                    ]
+                ],
+                'payment_methods_exclusions' => [
+                    4,
+                    5
+                ],
+                'external_ids' => [
+                    [
+                        'id' => 'HX_k50456430806',
+                        'module_key' => 'HURTOWNIA_X'
+                    ]
+                ]
+            ],
+            [
+                'code' => 'k60456430806',
+                'update' => 0,
+                'product_name' => 'Mitologia grecka',
+                'producer_id' => 712,
+                'category' => [
+                    'ext_1234',
+                    [
+                        'aid' => 'ext_1234',
+                        'name' => 'Edukacja/Lektury'
+                    ]
+                ],
+                'price_brutto' => 9.99,
+                'vat_rate' => 23,
+                'ebook' => 1
+            ],
+            [
+                'code' => 'k65456430806',
+                'category_id' => [
+                    6431,
+                    [
+                        'main' => 1,
+                        'id' => 6231
+                    ]
+                ]
+            ],
+            [
+                'code' => 'k70456430806',
+                'deleted' => 1
+            ],
+            [
+                'code' => 'k80456430806',
+                'ignored_fields' => 'name,desc,producer_name,category,attributes,active,price_netto,price_brutto,seo,recommended,new',
+                'product_name' => 'Zestaw: lampa + żarówka',
+                'package_content' => [
+                    [
+                        'code' => 'k80456430806_a',
+                        'quantity' => 1
+                    ],
+                    [
+                        'code' => 'k80456430806_b',
+                        'quantity' => 2
+                    ]
+                ]
+            ],
+            [
+                'code' => 'k90456430806',
+                'product_name' => 'Album mp3',
+                'files' => [
+                    'delete_unsent' => 1,
+                    'file' => [
+                        'http://...com.pl/ftp/mp3/testmp3.mp3',
+                        'http://...com.pl/ftp/mp3/testmp4.mp3'
+                    ]
+                ]
+            ],
+            [
+                'external_id' => 'ei_1222',
+                'new' => 0
+            ],
+            [
+                'product_id' => 15248,
+                'new' => 0
+            ],
+            [
+                'code' => 'pr-20180802-1052',
+                'service' => [
+                    'code' => 'dodatkowa gwarancja',
+                    'service' => 1
+                ]
+            ],
+            [
+                'code' => 'pr-20180802-1107',
+                'service' => 0,
+                'services' => [
+                    'pr-20180802-1111',
+                    'pr-20180802-1112'
+                ]
+            ],
+            [
+                'combinations' => [
+                    [
+                        'code' => 'kod_wariantu_X',
+                        'price_modifier' => '+',
+                        'price_value' => 0,
+                        'attributes' => [
+                            [
+                                'name' => 'Rozmiar',
+                                'value' => 'L'
+                            ],
+                            [
+                                'name' => 'Kolor',
+                                'value' => 'zielony'
+                            ]
+                        ],
+                        'params' => [
+                            [
+                                'name' => 'EAN',
+                                'value' => '2201808021706'
+                            ]
+                        ]
+                    ],
+                    [
+                        'code' => 'kod_wariantu_Y',
+                        'price_modifier' => '=',
+                        'price_value' => 150.5050,
+                        'purchase_price' => 140.4040,
+                        'suggested_price' => 160.6060,
+                        'active' => 1,
+                        'verified' => 0,
+                        'attributes' => [
+                            [
+                                'name' => 'Rozmiar',
+                                'value' => 'XXL'
+                            ]
+                        ],
+                        'image_url' => 'http://...',
+                        'external_ids' => [
+                            [
+                                'module_key' => 'HURTOWANIA_X',
+                                'id' => 'HX_wY'
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]);
+        $this->assertEquals('OK', $response);
+    }
+
+    public function testSetProductsImages()
+    {
+        $response = $this->catalog->SetProductsImages([
+            [
+                'code' => 'kkk_111',
+                'image_name' => 'Amoeba 2.jpg',
+                'image_content' => '...',
+            ],
+            [
+                'code' => 'kkk_111',
+                'image_name' => 'Amoeba 3.jpg',
+                'image_url' => 'http://...',
+            ],
+            [
+                'code' => 'kkk_111',
+                'no_content' => 1,
+                'image_name' => 'sdfd_2.jpg',
+            ],
+            [
+                'code' => 'kkk_111',
+                'image_name' => 'Amoeba 4.jpg',
+                'dir' => '1_1000',
+                'image_external_id' => 'kkk_111_iii_111',
+                'active' => 1,
+                'weight' => 1,
+                'allegro' => 1,
+                'allegro_miniature' => 0,
+                'google_merchant' => 1,
+                'stores_by_id' => '1,3',
+            ],
+            [
+                'code' => 'kkk_111',
+                'image_name' => 'sdfd_0.jpg',
+                'deleted' => 1,
+            ],
+            [
+                'image_external_id' => 'kkk_111_iii_000',
+                'deleted' => 1,
+            ],
+            [
+                'product_external_id' => 410522,
+                'no_content' => 1,
+                'image_name' => 'sdfd_5.jpg',
+            ],
+
         ]);
         $this->assertEquals('OK', $response);
     }

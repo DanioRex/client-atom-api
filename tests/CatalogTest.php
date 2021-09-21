@@ -19,6 +19,13 @@ class CatalogTest extends TestCase
         );
     }
 
+    public function testGetProducers()
+    {
+        $this->testCatalogGetFunction(__FUNCTION__);
+    }
+
+    // TEST: GET Catalog Methods
+
     private function testCatalogGetFunction(string $name, bool $custom = false, array $data = []): void
     {
         if ($custom) {
@@ -26,17 +33,11 @@ class CatalogTest extends TestCase
         } else {
             $array = $this->catalog->{substr($name, 4)}();
         }
+        if (!is_dir(__DIR__ . DIRECTORY_SEPARATOR . 'JSONS')) mkdir(__DIR__ . DIRECTORY_SEPARATOR . 'JSONS');
         $path = __DIR__ . DIRECTORY_SEPARATOR . 'JSONS' . DIRECTORY_SEPARATOR . $name . '.json';
         file_put_contents($path, json_encode($array));
         $this->assertIsArray($array);
         $this->assertJsonStringEqualsJsonFile($path, json_encode($array));
-    }
-
-    // TEST: GET Catalog Methods
-
-    public function testGetProducers()
-    {
-        $this->testCatalogGetFunction(__FUNCTION__);
     }
 
     public function testGetPrices()

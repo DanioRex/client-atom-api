@@ -12,10 +12,7 @@ class Catalog extends CatalogFactory
 {
 
     /**
-     * <a href="https://www.atomstore.pl/dokumentacja/545-metody---katalog,-marketing.html#content898">Atomstore Documentation</a>
-     * @param int $id
-     * @param string $code
-     * @return array<int, array<string>>
+     * @inheritDoc
      */
     public function GetAttributes(int $id = 0, string $code = ""): array
     {
@@ -45,9 +42,7 @@ class Catalog extends CatalogFactory
     }
 
     /**
-     * <a href="https://www.atomstore.pl/dokumentacja/545-metody---katalog,-marketing.html#content899">Atomstore Documentation</a>
-     * @param int $id_as_external_id
-     * @return array<int, array<string>>
+     * @inheritDoc
      */
     public function GetCategories(
         int $id_as_external_id = 0
@@ -78,8 +73,7 @@ class Catalog extends CatalogFactory
 
 
     /**
-     * <a href="https://www.atomstore.pl/dokumentacja/545-metody---katalog,-marketing.html#content896">Atomstore Documentation</a>
-     * @return array<int, array<string>>
+     * @inheritDoc
      */
     public function GetLockedQuantities(): array
     {
@@ -105,9 +99,7 @@ class Catalog extends CatalogFactory
     }
 
     /**
-     * <a href="https://www.atomstore.pl/dokumentacja/545-metody---katalog,-marketing.html#content902">Atomstore Documentation</a>
-     * @param string $timestamp
-     * @return array<int, array<string>>
+     * @inheritDoc
      */
     public function GetOpinions(
         string $timestamp
@@ -136,11 +128,7 @@ class Catalog extends CatalogFactory
     }
 
     /**
-     * <a href="https://www.atomstore.pl/dokumentacja/545-metody---katalog,-marketing.html#content549">Atomstore Documentation</a>
-     * @param bool $return_specials
-     * @param int $offset
-     * @param int $limit
-     * @return array<int, array<string>>
+     * @inheritDoc
      */
     public function GetPrices(
         bool $return_specials = false,
@@ -178,10 +166,7 @@ class Catalog extends CatalogFactory
     }
 
     /**
-     * <a href="https://www.atomstore.pl/dokumentacja/545-metody---katalog,-marketing.html#content550">Atomstore Documentation</a>
-     * @param int $offset
-     * @param int $limit
-     * @return array<int, array<string>>
+     * @inheritDoc
      */
     public function GetProducers(
         int $offset = 0,
@@ -207,10 +192,7 @@ class Catalog extends CatalogFactory
     }
 
     /**
-     * <a href="https://www.atomstore.pl/dokumentacja/545-metody---katalog,-marketing.html#content627">Atomstore Documentation</a>
-     * @param string $code
-     * @param int $only_id
-     * @return int
+     * @inheritDoc
      */
     public function GetProductByCode(
         string $code,
@@ -224,14 +206,7 @@ class Catalog extends CatalogFactory
     }
 
     /**
-     * <a href="https://www.atomstore.pl/dokumentacja/545-metody---katalog,-marketing.html#content551">Atomstore Documentation</a>
-     * @param bool $reservations
-     * @param string $modified
-     * @param bool $include_suppliers
-     * @param string $separate_suppliers
-     * @param string $store_id
-     * @param string $code
-     * @return array<int, array<string>>
+     * @inheritDoc
      */
     public function GetProductQuantities(
         bool   $reservations = false,
@@ -267,20 +242,7 @@ class Catalog extends CatalogFactory
     }
 
     /**
-     * <a href="https://www.atomstore.pl/dokumentacja/545-metody---katalog,-marketing.html#content552">Atomstore Documentation</a>
-     * @param string $product_id
-     * @param int $all_images
-     * @param array|null $image_size
-     * @param int $combinations
-     * @param string $get_attributes
-     * @param string $modified
-     * @param int $only_new_products
-     * @param int $limit
-     * @param int $price_list_id
-     * @param string $verified
-     * @param string $phrase
-     * @param string $store_id
-     * @return array<int, array<string>>
+     * @inheritDoc
      */
     public function GetProducts(
         string $product_id = "",
@@ -424,8 +386,7 @@ class Catalog extends CatalogFactory
 
 
     /**
-     * <a href="https://www.atomstore.pl/dokumentacja/545-metody---katalog,-marketing.html#content553">Atomstore Documentation</a>
-     * @return array{from: int, to: int}
+     * @inheritDoc
      */
     #[ArrayShape(['from' => "int", 'to' => "int"])] public function GetProductsIdsRange(): array
     {
@@ -438,11 +399,7 @@ class Catalog extends CatalogFactory
     }
 
     /**
-     * <a href="https://www.atomstore.pl/dokumentacja/545-metody---katalog,-marketing.html#content629">Atomstore Documentation</a>
-     * @param bool $return_inactive
-     * @param string $modified
-     * @param string $store_id
-     * @return array<int, array<string>>
+     * @inheritDoc
      */
     public function GetSpecials(
         bool   $return_inactive = false,
@@ -482,9 +439,7 @@ class Catalog extends CatalogFactory
     }
 
     /**
-     * <a href="https://www.atomstore.pl/dokumentacja/545-metody---katalog,-marketing.html#content554">Atomstore Documentation</a>
-     * @param array $data
-     * @return string
+     * @inheritDoc
      */
     public function SetCategories(array $data): string
     {
@@ -516,9 +471,7 @@ class Catalog extends CatalogFactory
     }
 
     /**
-     * <a href="https://www.atomstore.pl/dokumentacja/545-metody---katalog,-marketing.html#content555">Atomstore Documentation</a>
-     * @param array $data
-     * @return string
+     * @inheritDoc
      */
     public function SetCombinations(array $data): string
     {
@@ -536,9 +489,7 @@ class Catalog extends CatalogFactory
     }
 
     /**
-     * <a href="https://www.atomstore.pl/dokumentacja/545-metody---katalog,-marketing.html#content556">Atomstore Documentation</a>
-     * @param array $data
-     * @return string
+     * @inheritDoc
      */
     public function SetGratis(array $data): string
     {
@@ -580,9 +531,7 @@ class Catalog extends CatalogFactory
     }
 
     /**
-     * <a href="https://www.atomstore.pl/dokumentacja/545-metody---katalog,-marketing.html#content557">Atomstore Documentation</a>
-     * @param array $data
-     * @return string
+     * @inheritDoc
      */
     public function SetOpenPackage(array $data): string
     {
@@ -617,9 +566,7 @@ class Catalog extends CatalogFactory
     }
 
     /**
-     * <a href="https://www.atomstore.pl/dokumentacja/545-metody---katalog,-marketing.html#content558">Atomstore Documentation</a>
-     * @param array $data
-     * @return array
+     * @inheritDoc
      */
     public function SetOpenPackageGroups(array $data): array
     {
@@ -653,9 +600,7 @@ class Catalog extends CatalogFactory
     }
 
     /**
-     * <a href="https://www.atomstore.pl/dokumentacja/545-metody---katalog,-marketing.html#content559">Atomstore Documentation</a>
-     * @param array $data
-     * @return string
+     * @inheritDoc
      */
     public function SetOpinions(array $data): string
     {
@@ -685,9 +630,7 @@ class Catalog extends CatalogFactory
     }
 
     /**
-     * <a href="https://www.atomstore.pl/dokumentacja/545-metody---katalog,-marketing.html#content560">Atomstore Documentation</a>
-     * @param array $data
-     * @return string
+     * @inheritDoc
      */
     public function SetPrices(array $data): string
     {
@@ -731,9 +674,7 @@ class Catalog extends CatalogFactory
     }
 
     /**
-     * <a href="https://www.atomstore.pl/dokumentacja/545-metody---katalog,-marketing.html#content561">Atomstore Documentation</a>
-     * @param array $data
-     * @return array
+     * @inheritDoc
      */
     public function SetProducers(array $data): array
     {
@@ -766,9 +707,7 @@ class Catalog extends CatalogFactory
     }
 
     /**
-     * <a href="https://www.atomstore.pl/dokumentacja/545-metody---katalog,-marketing.html#content562">Atomstore Documentation</a>
-     * @param array $data
-     * @return string
+     * @inheritDoc
      */
     public function SetProductQuantities(array $data): string
     {
@@ -792,9 +731,7 @@ class Catalog extends CatalogFactory
     }
 
     /**
-     * <a href="https://www.atomstore.pl/dokumentacja/545-metody---katalog,-marketing.html#content563">Atomstore Documentation</a>
-     * @param array $data
-     * @return string
+     * @inheritDoc
      */
     public function SetProducts(array $data): string
     {
@@ -1003,9 +940,7 @@ class Catalog extends CatalogFactory
     }
 
     /**
-     * <a href="https://www.atomstore.pl/dokumentacja/545-metody---katalog,-marketing.html#content564">Atomstore Documentation</a>
-     * @param array $data
-     * @return string
+     * @inheritDoc
      */
     public function SetProductsImages(array $data): string
     {

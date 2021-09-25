@@ -13,9 +13,9 @@ class CatalogTest extends TestCase
     {
         parent::__construct($name, $data, $dataName);
         $this->catalog = new Catalog(
-            'http://idesign.atomstore.pl/atom_api/wsdl/atom_api',
-            'dmazur',
-            ']W:(YkFLfj'
+            '',
+            '',
+            ''
         );
     }
 
@@ -34,7 +34,8 @@ class CatalogTest extends TestCase
             $array = $this->catalog->{substr($name, 4)}();
         }
         if (!is_dir(__DIR__ . DIRECTORY_SEPARATOR . 'JSONS')) mkdir(__DIR__ . DIRECTORY_SEPARATOR . 'JSONS');
-        $path = __DIR__ . DIRECTORY_SEPARATOR . 'JSONS' . DIRECTORY_SEPARATOR . $name . '.json';
+        if (!is_dir(__DIR__ . DIRECTORY_SEPARATOR . 'JSONS' . DIRECTORY_SEPARATOR . 'Catalog')) mkdir(__DIR__ . DIRECTORY_SEPARATOR . 'JSONS' . DIRECTORY_SEPARATOR . 'Catalog');
+        $path = __DIR__ . DIRECTORY_SEPARATOR . 'JSONS' . DIRECTORY_SEPARATOR . 'Catalog' . DIRECTORY_SEPARATOR . $name . '.json';
         file_put_contents($path, json_encode($array));
         $this->assertIsArray($array);
         $this->assertJsonStringEqualsJsonFile($path, json_encode($array));

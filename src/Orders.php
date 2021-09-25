@@ -114,73 +114,73 @@ class Orders extends OrdersFactory
                 'dateDelivery' => $order->dateDelivery->__toString(),
                 'language' => $order->language->__toString(),
                 'client' => [
-                    'userID' => (int)$order->client->userID->__toString(),
-                    'subUserID' => (int)$order->client->subUserID->__toString(),
-                    'externalId' => $order->client->externalId->__toString(),
-                    'allegroUserId' => $order->client->allegroUserId->__toString(),
-                    'allegroUserLogin' => $order->client->allegroUserLogin->__toString(),
-                    'userMail' => $order->client->userMail->__toString(),
-                    'username' => $order->client->username->__toString(),
-                    'email' => $order->client->email->__toString(),
-                    'newsletter' => (bool)$order->client->newsletter->__toString(),
-                    'language' => $order->client->language->__toString(),
-                    'shippingAddressId' => $order->client->shippingAddressId->__toString(),
-                    'shippingFirstName' => $order->client->shippingFirstName->__toString(),
-                    'shippingLastName' => $order->client->shippingLastName->__toString(),
-                    'shippingCompany' => $order->client->shippingCompany->__toString(),
-                    'shippingStreet' => $order->client->shippingStreet->__toString(),
-                    'shippingStreetNumber1' => $order->client->shippingStreetNumber1->__toString(),
-                    'shippingStreetNumber2' => $order->client->shippingStreetNumber2->__toString(),
-                    'shippingPostCode' => $order->client->shippingPostCode->__toString(),
-                    'shippingCity' => $order->client->shippingCity->__toString(),
-                    'shippingStateCode' => $order->client->shippingStateCode->__toString(),
-                    'shippingState' => $order->client->shippingState->__toString(),
-                    'shippingCountryCode' => $order->client->shippingCountryCode->__toString(),
-                    'shippingCountry' => $order->client->shippingCountry->__toString(),
-                    'shippingPhone' => $order->client->shippingPhone->__toString(),
-                    'shippingEmail' => $order->client->shippingEmail->__toString(),
-                    'paymentUser' => $order->client->paymentUser->__toString(),
-                    'paymentAddressId' => $order->client->paymentAddressId->__toString(),
-                    'paymentFirstName' => $order->client->paymentFirstName->__toString(),
-                    'paymentLastName' => $order->client->paymentLastName->__toString(),
-                    'paymentCompany' => $order->client->paymentCompany->__toString(),
-                    'paymentNIP' => $order->client->paymentNIP->__toString(),
-                    'paymentStreet' => $order->client->paymentStreet->__toString(),
-                    'paymentStreetNumber1' => $order->client->paymentStreetNumber1->__toString(),
-                    'paymentStreetNumber2' => $order->client->paymentStreetNumber2->__toString(),
-                    'paymentPostCode' => $order->client->paymentPostCode->__toString(),
-                    'paymentCity' => $order->client->paymentCity->__toString(),
-                    'paymentStateCode' => $order->client->paymentStateCode->__toString(),
-                    'paymentState' => $order->client->paymentState->__toString(),
-                    'paymentCountryCode' => $order->client->paymentCountryCode->__toString(),
-                    'paymentCountry' => $order->client->paymentCountry->__toString(),
-                    'paymentPhone' => $order->client->paymentPhone->__toString(),
-                    'paymentTerm' => $order->client->paymentTerm->__toString(),
+                    'userID' => isset($order->client->userID) ? (int)$order->client->userID->__toString() : null,
+                    'subUserID' => isset($order->client->subUserID) ? $order->client->subUserID->__toString() : null,
+                    'externalId' => isset($order->client->externalId) ? $order->client->externalId->__toString() : null,
+                    'allegroUserId' => isset($order->client->allegroUserId) ? $order->client->allegroUserId->__toString() : null,
+                    'allegroUserLogin' => isset($order->client->allegroUserLogin) ? $order->client->allegroUserLogin->__toString() : null,
+                    'userMail' => isset($order->client->userMail) ? $order->client->userMail->__toString() : null,
+                    'username' => isset($order->client->username) ? $order->client->username->__toString() : null,
+                    'email' => isset($order->client->email) ? $order->client->email->__toString() : null,
+                    'newsletter' => isset($order->client->newsletter) ? (bool)$order->client->newsletter->__toString() : null,
+                    'language' => isset($order->client->language) ? $order->client->language->__toString() : null,
+                    'shippingAddressId' => isset($order->client->shippingAddressId) ? $order->client->shippingAddressId->__toString() : null,
+                    'shippingFirstName' => isset($order->client->shippingFirstName) ? $order->client->shippingFirstName->__toString() : null,
+                    'shippingLastName' => isset($order->client->shippingLastName) ? $order->client->shippingLastName->__toString() : null,
+                    'shippingCompany' => isset($order->client->shippingCompany) ? $order->client->shippingCompany->__toString() : null,
+                    'shippingStreet' => isset($order->client->shippingStreet) ? $order->client->shippingStreet->__toString() : null,
+                    'shippingStreetNumber1' => isset($order->client->shippingStreetNumber1) ? $order->client->shippingStreetNumber1->__toString() : null,
+                    'shippingStreetNumber2' => isset($order->client->shippingStreetNumber2) ? $order->client->shippingStreetNumber2->__toString() : null,
+                    'shippingPostCode' => isset($order->client->shippingPostCode) ? $order->client->shippingPostCode->__toString() : null,
+                    'shippingCity' => isset($order->client->shippingCity) ? $order->client->shippingCity->__toString() : null,
+                    'shippingStateCode' => isset($order->client->shippingStateCode) ? $order->client->shippingStateCode->__toString() : null,
+                    'shippingState' => isset($order->client->shippingState) ? $order->client->shippingState->__toString() : null,
+                    'shippingCountryCode' => isset($order->client->shippingCountryCode) ? $order->client->shippingCountryCode->__toString() : null,
+                    'shippingCountry' => isset($order->client->shippingCountry) ? $order->client->shippingCountry->__toString() : null,
+                    'shippingPhone' => isset($order->client->shippingPhone) ? $order->client->shippingPhone->__toString() : null,
+                    'shippingEmail' => isset($order->client->shippingEmail) ? $order->client->shippingEmail->__toString() : null,
+                    'paymentUser' => isset($order->client->paymentUser) ? $order->client->paymentUser->__toString() : null,
+                    'paymentAddressId' => isset($order->client->paymentAddressId) ? $order->client->paymentAddressId->__toString() : null,
+                    'paymentFirstName' => isset($order->client->paymentFirstName) ? $order->client->paymentFirstName->__toString() : null,
+                    'paymentLastName' => isset($order->client->paymentLastName) ? $order->client->paymentLastName->__toString() : null,
+                    'paymentCompany' => isset($order->client->paymentCompany) ? $order->client->paymentCompany->__toString() : null,
+                    'paymentNIP' => isset($order->client->paymentNIP) ? $order->client->paymentNIP->__toString() : null,
+                    'paymentStreet' => isset($order->client->paymentStreet) ? $order->client->paymentStreet->__toString() : null,
+                    'paymentStreetNumber1' => isset($order->client->paymentStreetNumber1) ? $order->client->paymentStreetNumber1->__toString() : null,
+                    'paymentStreetNumber2' => isset($order->client->paymentStreetNumber2) ? $order->client->paymentStreetNumber2->__toString() : null,
+                    'paymentPostCode' => isset($order->client->paymentPostCode) ? $order->client->paymentPostCode->__toString() : null,
+                    'paymentCity' => isset($order->client->paymentCity) ? $order->client->paymentCity->__toString() : null,
+                    'paymentStateCode' => isset($order->client->paymentStateCode) ? $order->client->paymentStateCode->__toString() : null,
+                    'paymentState' => isset($order->client->paymentState) ? $order->client->paymentState->__toString() : null,
+                    'paymentCountryCode' => isset($order->client->paymentCountryCode) ? $order->client->paymentCountryCode->__toString() : null,
+                    'paymentCountry' => isset($order->client->paymentCountry) ? $order->client->paymentCountry->__toString() : null,
+                    'paymentPhone' => isset($order->client->paymentPhone) ? $order->client->paymentPhone->__toString() : null,
+                    'paymentTerm' => isset($order->client->paymentTerm) ? $order->client->paymentTerm->__toString() : null,
                 ],
                 'admin' => [
-                    'email' => $order->admin->email->__toString()
+                    'email' => isset($order->admin->email) ? $order->admin->email->__toString() : null
                 ],
                 'products' => array_map(function ($product) {
                     return [
-                        'positionID' => $product->positionID->__toString(),
+                        'positionID' => (int)$product->positionID->__toString(),
                         'code' => $product->code->__toString(),
-                        'productID' => $product->productID->__toString(),
+                        'productID' => (int)$product->productID->__toString(),
                         'productName' => $product->productName->__toString(),
-                        'price' => $product->price->__toString(),
-                        'priceBrutto' => $product->priceBrutto->__toString(),
-                        'defaultPrice' => $product->defaultPrice->__toString(),
-                        'tax' => $product->tax->__toString(),
-                        'quantity' => $product->quantity->__toString(),
-                        'noReturn' => $product->noReturn->__toString(),
+                        'price' => (float)$product->price->__toString(),
+                        'priceBrutto' => (float)$product->priceBrutto->__toString(),
+                        'defaultPrice' => (float)$product->defaultPrice->__toString(),
+                        'tax' => (int)$product->tax->__toString(),
+                        'quantity' => (int)$product->quantity->__toString(),
+                        'noReturn' => (bool)$product->noReturn->__toString(),
                         'unit' => $product->unit->__toString(),
-                        'combinationID' => $product->combinationID->__toString(),
+                        'combinationID' => (int)$product->combinationID->__toString(),
                         'combinationName' => $product->combinationName->__toString(),
                         'comments' => $product->comments->__toString(),
                         'serial' => $product->serial->__toString(),
                         'producer' => $product->producer->__toString(),
-                        'kitID' => $product->kitID->__toString(),
-                        'gratis' => $product->gratis->__toString(),
-                        'availabilityStatusId' => $product->availabilityStatusId->__toString(),
+                        'kitID' => (int)$product->kitID->__toString(),
+                        'gratis' => (bool)$product->gratis->__toString(),
+                        'availabilityStatusId' => (int)$product->availabilityStatusId->__toString(),
                         'externalId' => $product->externalId->__toString(),
                         'extras' => array_map(function ($extras) {
                             return [
@@ -199,24 +199,24 @@ class Orders extends OrdersFactory
                 }, $order->otherIdentifiers->xpath('otherIdentifier') ?? []),
                 'order_fields' => array_map(function ($order_field) {
                     return [
-                        'id' => $order_field->id->__toString(),
+                        'id' => (int)$order_field->id->__toString(),
                         'key' => $order_field->key->__toString(),
                         'name' => $order_field->name->__toString(),
                         'value' => $order_field->value->__toString()
                     ];
-                }, $order->order_fields->xpath('order_field')),
+                }, $order->order_fields->xpath('order_field') ?? []),
                 'partner' => [
-                    'partnerID' => $order->partner->partnerID->__toString(),
-                    'email' => $order->partner->email->__toString(),
-                    'company' => $order->partner->company->__toString(),
-                    'firstname' => $order->partner->firstname->__toString(),
-                    'lastname' => $order->partner->lastname->__toString(),
+                    'partnerID' => isset($order->partner->partnerID) ? (int)$order->partner->partnerID->__toString() : null,
+                    'email' => isset($order->partner->email) ? $order->partner->email->__toString() : null,
+                    'company' => isset($order->partner->company) ? $order->partner->company->__toString() : null,
+                    'firstname' => isset($order->partner->firstname) ? $order->partner->firstname->__toString() : null,
+                    'lastname' => isset($order->partner->lastname) ? $order->partner->lastname->__toString() : null,
                 ],
                 'salesrep' => [
-                    'email' => $order->salesrep->email->__toString(),
-                    'code' => $order->salesrep->code->__toString(),
-                    'firstname' => $order->salesrep->firstname->__toString(),
-                    'lastname' => $order->salesrep->lastname->__toString(),
+                    'email' => isset($order->salesrep->email) ? $order->salesrep->email->__toString() : null,
+                    'code' => isset($order->salesrep->code) ? $order->salesrep->code->__toString() : null,
+                    'firstname' => isset($order->salesrep->firstname) ? $order->salesrep->firstname->__toString() : null,
+                    'lastname' => isset($order->salesrep->lastname) ? $order->salesrep->lastname->__toString() : null,
                 ],
                 'offerName' => $order->offerName->__toString()
             ];
@@ -235,7 +235,7 @@ class Orders extends OrdersFactory
         );
         foreach ($xml->xpath('orderStatus') as $orderStatus) {
             $processed[] = [
-                'id' => $orderStatus->id->__toString(),
+                'id' => (int)$orderStatus->id->__toString(),
                 'name' => $orderStatus->name->__toString(),
             ];
         }
@@ -249,7 +249,7 @@ class Orders extends OrdersFactory
         int $orderId
     ): int
     {
-        return $this->try(__FUNCTION__, [
+        return (int)$this->try(__FUNCTION__, [
             $orderId
         ]);
     }
@@ -277,15 +277,15 @@ class Orders extends OrdersFactory
         $processed = [];
         foreach ($xml->xpath('order') as $order) {
             $processed[] = [
-                'id' => $order->id->__toString(),
-                'paid' => $order->paid->__toString(),
+                'id' => (int)$order->id->__toString(),
+                'paid' => (float)$order->paid->__toString(),
                 'payments' => array_map(function ($payment) {
                     return [
-                        'voucher' => $payment->voucher->__toString(),
-                        'paymentValue' => $payment->paymentValue->__toString(),
+                        'voucher' => (bool)$payment->voucher->__toString(),
+                        'paymentValue' => (float)$payment->paymentValue->__toString(),
                         'paymentTransactionId' => $payment->paymentTransactionId->__toString(),
                         'paymentTransactionDate' => $payment->paymentTransactionDate->__toString(),
-                        'paymentCommision' => $payment->paymentCommision->__toString(),
+                        'paymentCommission' => (float)$payment->paymentCommission->__toString(),
                     ];
                 }, $order->payments->xpath('payment') ?? [])
             ];
@@ -371,7 +371,123 @@ class Orders extends OrdersFactory
         int   $price_list_id = 0
     ): array|string
     {
-        // TODO: Implement SetOrders() method.
+        $processed = [];
+        if (!empty($data)) {
+            foreach ($data as $element) {
+                $to_array = [];
+                if (isset($element['create'])) $to_array['create']['_value'] = (string)$element['create'];
+                if (isset($element['returnNewOrdersIds'])) $to_array['create']['_attributes']['returnNewOrdersIds'] = (string)$element['returnNewOrdersIds'];
+                if (isset($element['externalId'])) $to_array['externalId'] = (string)$element['externalId'];
+                if (isset($element['dropshipping'])) $to_array['dropshipping'] = (string)$element['dropshipping'];
+                if (isset($element['dropshippingCodValue'])) $to_array['dropshippingCodValue'] = (string)$element['dropshippingCodValue'];
+                if (isset($element['shippingEmail'])) $to_array['shippingEmail']['_cdata'] = (string)$element['shippingEmail'];
+                if (isset($element['created'])) $to_array['created'] = (string)$element['created'];
+                if (isset($element['number'])) $to_array['number'] = (string)$element['number'];
+                if (isset($element['statusID'])) $to_array['statusID'] = (string)$element['statusID'];
+                if (isset($element['shippingPrice'])) $to_array['shippingPrice'] = (string)$element['shippingPrice'];
+                if (isset($element['shippingTaxValue'])) $to_array['shippingTaxValue'] = (string)$element['shippingTaxValue'];
+                if (isset($element['shippingMethod'])) $to_array['shippingMethod'] = (string)$element['shippingMethod'];
+                if (isset($element['shippingMethodId'])) $to_array['shippingMethodId'] = (string)$element['shippingMethodId'];
+                if (isset($element['shippingMethodOptionKey'])) $to_array['shippingMethodOptionKey'] = (string)$element['shippingMethodOptionKey'];
+                if (isset($element['shippingComments'])) $to_array['shippingComments']['_cdata'] = (string)$element['shippingComments'];
+                if (isset($element['shippingQuantity'])) $to_array['shippingQuantity'] = (string)$element['shippingQuantity'];
+                if (isset($element['paymentPrice'])) $to_array['paymentPrice'] = (string)$element['paymentPrice'];
+                if (isset($element['paymentTaxValue'])) $to_array['paymentTaxValue'] = (string)$element['paymentTaxValue'];
+                if (isset($element['paymentMethod'])) $to_array['paymentMethod'] = (string)$element['paymentMethod'];
+                if (isset($element['paymentMethodId'])) $to_array['paymentMethodId'] = (string)$element['paymentMethodId'];
+                if (isset($element['tracking_labels'])) $to_array['tracking_labels']['tracking_label'] = array_map(function ($tracking_label) {
+                    $tmp = [];
+                    if (isset($tracking_label['for'])) $tmp['_attributes']['for'] = $tracking_label['for'];
+                    if (isset($tracking_label['label'])) $tmp['_cdata'] = $tracking_label['label'];
+                    return $tmp;
+                }, $element['tracking_labels']);
+                if (isset($element['paymentMethod'])) $to_array['paymentMethod'] = (string)$element['paymentMethod'];
+                if (isset($element['paymentMethodOptionKey'])) $to_array['paymentMethodOptionKey'] = (string)$element['paymentMethodOptionKey'];
+                if (isset($element['salesrep']['email'])) $to_array['salesrep']['email'] = (string)$element['salesrep']['email'];
+                if (isset($element['source'])) $to_array['source'] = (string)$element['source'];
+                if (isset($element['store_id'])) $to_array['store_id'] = (string)$element['store_id'];
+                if (isset($element['currency'])) $to_array['currency'] = (string)$element['currency'];
+                if (isset($element['currencyValue'])) $to_array['currencyValue'] = (string)$element['currencyValue'];
+                if (isset($element['comments']['comment'])) $to_array['comments']['_cdata'] = (string)$element['comments']['comment'];
+                if (isset($element['comments']['send_email'])) $to_array['comments']['_attributes']['send_email'] = (string)$element['comments']['send_email'];
+                if (isset($element['comments']['email_subject'])) $to_array['comments']['_attributes']['email_subject'] = (string)$element['comments']['email_subject'];
+                if (isset($element['send_email'])) $to_array['send_email'] = (string)$element['send_email'];
+                if (isset($element['payments'])) $to_array['payments']['payment'] = (array_map(function ($payment) {
+                    $tmp = [];
+                    if (isset($payment['paymentValue'])) $tmp['paymentValue'] = $payment['paymentValue'];
+                    if (isset($payment['paymentTransactionId'])) $tmp['paymentTransactionId'] = $payment['paymentTransactionId'];
+                    return $tmp;
+                }, $element['payments']));
+                if (isset($element['inventory_enabled'])) $to_array['inventory_enabled'] = (string)$element['inventory_enabled'];
+                if (isset($element['language'])) $to_array['language'] = (string)$element['language'];
+                if (isset($element['invoice'])) $to_array['invoice'] = (string)$element['invoice'];
+                if (isset($element['invoiceNumber'])) $to_array['invoiceNumber'] = (string)$element['invoiceNumber'];
+                if (isset($element['paymentTerm'])) $to_array['paymentTerm'] = (string)$element['paymentTerm'];
+                if (isset($element['allegroNumber'])) $to_array['allegroNumber'] = (string)$element['allegroNumber'];
+                if (isset($element['allegroTransactionId'])) $to_array['allegroTransactionId'] = (string)$element['allegroTransactionId'];
+                if (isset($element['tracking_status'])) $to_array['tracking_status'] = (string)$element['tracking_status'];
+                if (isset($element['tracking_number'])) $to_array['tracking_number'] = (string)$element['tracking_number'];
+                if (isset($element['tracking_url'])) $to_array['tracking_url'] = (string)$element['tracking_url'];
+                if (isset($element['unlock_quantities'])) $to_array['unlock_quantities'] = (string)$element['unlock_quantities'];
+                if (isset($element['client']['atom_id'])) $to_array['client']['atom_id'] = (string)$element['client']['atom_id'];
+                if (isset($element['client']['externalId'])) $to_array['client']['externalId'] = (string)$element['client']['externalId'];
+                if (isset($element['client']['email'])) $to_array['client']['email'] = (string)$element['client']['email'];
+                if (isset($element['client']['orderEmail'])) $to_array['client']['orderEmail'] = (string)$element['client']['orderEmail'];
+                if (isset($element['client']['username'])) $to_array['client']['username']['_cdata'] = (string)$element['client']['username'];
+                if (isset($element['client']['shippingFirstName'])) $to_array['client']['shippingFirstName']['_cdata'] = (string)$element['client']['shippingFirstName'];
+                if (isset($element['client']['shippingLastName'])) $to_array['client']['shippingLastName']['_cdata'] = (string)$element['client']['shippingLastName'];
+                if (isset($element['client']['shippingCompany'])) $to_array['client']['shippingCompany']['_cdata'] = (string)$element['client']['shippingCompany'];
+                if (isset($element['client']['shippingStreet'])) $to_array['client']['shippingStreet']['_cdata'] = (string)$element['client']['shippingStreet'];
+                if (isset($element['client']['shippingStreetNumber1'])) $to_array['client']['shippingStreetNumber1']['_cdata'] = (string)$element['client']['shippingStreetNumber1'];
+                if (isset($element['client']['shippingStreetNumber2'])) $to_array['client']['shippingStreetNumber2']['_cdata'] = (string)$element['client']['shippingStreetNumber2'];
+                if (isset($element['client']['shippingPostCode'])) $to_array['client']['shippingPostCode']['_cdata'] = (string)$element['client']['shippingPostCode'];
+                if (isset($element['client']['shippingCity'])) $to_array['client']['shippingCity']['_cdata'] = (string)$element['client']['shippingCity'];
+                if (isset($element['client']['shippingCountry'])) $to_array['client']['shippingCountry']['_cdata'] = (string)$element['client']['shippingCountry'];
+                if (isset($element['client']['shippingCountryCode'])) $to_array['client']['shippingCountryCode']['_cdata'] = (string)$element['client']['shippingCountryCode'];
+                if (isset($element['client']['shippingPhone'])) $to_array['client']['shippingPhone']['_cdata'] = (string)$element['client']['shippingPhone'];
+                if (isset($element['client']['paymentFirstName'])) $to_array['client']['paymentFirstName']['_cdata'] = (string)$element['client']['paymentFirstName'];
+                if (isset($element['client']['paymentLastName'])) $to_array['client']['paymentLastName']['_cdata'] = (string)$element['client']['paymentLastName'];
+                if (isset($element['client']['paymentCompany'])) $to_array['client']['paymentCompany']['_cdata'] = (string)$element['client']['paymentCompany'];
+                if (isset($element['client']['paymentNIP'])) $to_array['client']['paymentNIP']['_cdata'] = (string)$element['client']['paymentNIP'];
+                if (isset($element['client']['paymentStreet'])) $to_array['client']['paymentStreet']['_cdata'] = (string)$element['client']['paymentStreet'];
+                if (isset($element['client']['paymentStreetNumber1'])) $to_array['client']['paymentStreetNumber1']['_cdata'] = (string)$element['client']['paymentStreetNumber1'];
+                if (isset($element['client']['paymentStreetNumber2'])) $to_array['client']['paymentStreetNumber2']['_cdata'] = (string)$element['client']['paymentStreetNumber2'];
+                if (isset($element['client']['paymentPostCode'])) $to_array['client']['paymentPostCode']['_cdata'] = (string)$element['client']['paymentPostCode'];
+                if (isset($element['client']['paymentCity'])) $to_array['client']['paymentCity']['_cdata'] = (string)$element['client']['paymentCity'];
+                if (isset($element['client']['paymentCountry'])) $to_array['client']['paymentCountry']['_cdata'] = (string)$element['client']['paymentCountry'];
+                if (isset($element['client']['paymentCountryCode'])) $to_array['client']['paymentCountryCode']['_cdata'] = (string)$element['client']['paymentCountryCode'];
+                if (isset($element['client']['paymentPhone'])) $to_array['client']['paymentPhone']['_cdata'] = (string)$element['client']['paymentPhone'];
+                if (isset($element['client']['registration'])) $to_array['client']['registration'] = (string)$element['client']['registration'];
+                if (isset($element['client']['allegroLogin'])) $to_array['client']['allegroLogin'] = (string)$element['client']['allegroLogin'];
+                if (isset($element['admin']['email'])) $to_array['admin']['email'] = (string)$element['admin']['email'];
+                if (isset($element['couponCode'])) $to_array['couponCode'] = (string)$element['couponCode'];
+                if (isset($element['couponID'])) $to_array['couponID'] = (string)$element['couponID'];
+                if (isset($element['couponValue'])) $to_array['couponValue'] = (string)$element['couponValue'];
+                if (isset($element['products'])) $to_array['products'] = array_map(function ($product) {
+                    $tmp = [];
+                    if (isset($product['forceNewEntry'])) $tmp['_attributes']['forceNewEntry'] = $product['forceNewEntry'];
+                    if (isset($product['code'])) $tmp['code'] = $product['code'];
+                    if (isset($product['productName'])) $tmp['productName']['_cdata'] = $product['productName'];
+                    if (isset($product['price'])) $tmp['price'] = $product['price'];
+                    if (isset($product['tax'])) $tmp['tax'] = $product['tax'];
+                    if (isset($product['quantity'])) $tmp['quantity'] = $product['quantity'];
+                    if (isset($product['kitID'])) $tmp['kitID'] = $product['kitID'];
+                    if (isset($product['externalId'])) $tmp['externalId'] = $product['externalId'];
+                    if (isset($product['productID'])) $tmp['productID'] = $product['productID'];
+                    if (isset($product['combinationID'])) $tmp['combinationID'] = $product['combinationID'];
+                    if (isset($product['code'])) $tmp['code'] = $product['code'];
+                    if (isset($product['code'])) $tmp['code'] = $product['code'];
+                    if (isset($product['code'])) $tmp['code'] = $product['code'];
+                    if (isset($product['code'])) $tmp['code'] = $product['code'];
+                    return $tmp;
+                }, $element['products']);
+                array_push($processed, $to_array);
+            }
+        }
+        return $this->try(__FUNCTION__, [
+            ['xml' => $this->convertToXml($processed, 'order', 'orders')],
+            $price_list_id
+        ]); // TODO: Check how return xml structure looks and add it.
     }
 
     /**

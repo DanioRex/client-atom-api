@@ -6,6 +6,7 @@ interface GetClientsInterface
 {
     /**
      * <a href="https://www.atomstore.pl/dokumentacja/579-metody---klienci.html#content624">Atomstore Documentation</a>
+     * @deprecated Method not implemented in Atomstore Documentation.
      */
     public function GetComplaints(): void;
 

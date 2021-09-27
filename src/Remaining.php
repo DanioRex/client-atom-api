@@ -10,9 +10,47 @@ class Remaining extends RemainingFactory
     /**
      * @inheritDoc
      */
-    public function GetAllegroAuctions(string $status, string $number, string $code, string $date_add): array
+    public function GetAllegroAuctions(
+        string $status,
+        string $number,
+        string $code,
+        string $date_add
+    ): array
     {
-        // TODO: Implement GetAllegroAuctions() method.
+        $processed = [];
+        $xml = $this->convertToXmlElement(
+            $this->try(__FUNCTION__, [
+                $status,
+                $number,
+                $code,
+                $date_add
+            ])
+        );
+        foreach ($xml->xpath('auction') as $auction) {
+            $processed[] = [
+                'number' => $auction->number->__toString(),
+                'account' => $auction->account->__toString(),
+                'code' => $auction->code->__toString(),
+                'title' => $auction->title->__toString(),
+                'category_id' => $auction->category_id->__toString(),
+                'date_add' => $auction->date_add->__toString(),
+                'date_end' => $auction->date_end->__toString(),
+                'duration' => $auction->duration->__toString(),
+                'quantity' => (int)$auction->quantity->__toString(),
+                'quantitySold' => (int)$auction->quantitySold->__toString(),
+                'buyNowPrice' => (float)$auction->buyNowPrice->__toString(),
+                'cost' => (float)$auction->cost->__toString(),
+                'status' => (bool)$auction->status->__toString(),
+                'auction_fields' => array_map(function ($auction_field) {
+                    return [
+                        'key' => $auction_field->key->__toString(),
+                        'name' => $auction_field->name->__toString(),
+                        'value' => $auction_field->value->__toString(),
+                    ];
+                }, $auction->auction_fields->xpath('auction_field') ?? [])
+            ];
+        }
+        return $processed;
     }
 
     /**
@@ -20,7 +58,17 @@ class Remaining extends RemainingFactory
      */
     public function GetCurrencies(): array
     {
-        // TODO: Implement GetCurrencies() method.
+        $processed = [];
+        $xml = $this->convertToXmlElement(
+            $this->try(__FUNCTION__, [])
+        );
+        foreach ($xml->xpath('currency') as $currency) {
+            $processed[] = [
+                'code' => $currency->code->__toString(),
+                'value' => (float)$currency->value->__toString(),
+            ];
+        }
+        return $processed;
     }
 
     /**

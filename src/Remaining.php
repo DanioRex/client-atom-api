@@ -74,9 +74,47 @@ class Remaining extends RemainingFactory
     /**
      * @inheritDoc
      */
-    public function GetDocuments(int $user_id, string $modified = '0000-00-00 00:00:00'): array
+    public function GetDocuments(
+        int    $user_id,
+        string $modified = '0000-00-00 00:00:00'
+    ): array
     {
-        // TODO: Implement GetDocuments() method.
+        $processed = [];
+        $xml = $this->convertToXmlElement(
+            $this->try(__FUNCTION__, [
+                $user_id,
+                $modified
+            ])
+        );
+        foreach ($xml->xpath('document') as $document) {
+            $processed[] = [
+                'user' => [
+                    'atom_id' => isset($document->user->atom_id) ? (int)$document->user->atom_id->__toString() : null,
+                    'external_id' => isset($document->user->external_id) ? $document->user->external_id->__toString() : null,
+                    'email' => isset($document->user->email) ? $document->user->email->__toString() : null,
+                ],
+                'file' => [
+                    'url' => isset($document->file->url) ? $document->file->url->__toString() : null,
+                ],
+                'type' => $document->type->__toString(),
+                'number' => $document->number->__toString(),
+                'value' => (float)$document->value->__toString(),
+                'to_pay' => (float)$document->to_pay->__toString(),
+                'created' => $document->created->__toString(),
+                'modified' => $document->modified->__toString(),
+                'data' => $document->data->__toString(),
+                'products' => array_map(function ($product) {
+                    return [
+                        'code' => $product->code->__toString(),
+                        'quantity' => (int)$product->quantity->__toString(),
+                        'price' => (float)$product->price->__toString(),
+                        'tax' => (int)$product->tax->__toString(),
+                        'data' => $product->data->__toString(),
+                    ];
+                }, $document->products->xpath('product') ?? [])
+            ];
+        }
+        return $processed;
     }
 
     /**
@@ -84,7 +122,23 @@ class Remaining extends RemainingFactory
      */
     public function GetPaymentMethods(): array
     {
-        // TODO: Implement GetPaymentMethods() method.
+        $processed = [];
+        $xml = $this->convertToXmlElement(
+            $this->try(__FUNCTION__, [])
+        );
+        foreach ($xml->xpath('payment_method') as $payment_method) {
+            $processed[] = [
+                'id' => (int)$payment_method->id->__toString(),
+                'external_id' => $payment_method->external_id->__toString(),
+                'name' => $payment_method->name->__toString(),
+                'active' => (bool)$payment_method->active->__toString(),
+                'cod' => (bool)$payment_method->cod->__toString(),
+                'handling_fee_price' => (float)$payment_method->handling_fee_price->__toString(),
+                'handling_fee_percentage' => (float)$payment_method->handling_fee_percentage->__toString(),
+                'tax' => (int)$payment_method->tax->__toString(),
+            ];
+        }
+        return $processed;
     }
 
     /**

@@ -287,10 +287,10 @@ class Clients extends ClientsFactory
         if (empty($xml)) return $response;
         $return = [];
         foreach ($xml->xpath('savedUser') as $savedUser) {
-            $to_response = [];
-            if (isset($savedUser['user_id'])) $to_response['user_id'] = (int)$savedUser['user_id'];
-            if (isset($savedUser['external_id'])) $to_response['external_id'] = (string)$savedUser['external_id'];
-            array_push($return, $to_response);
+            $return[] = [
+                'user_id' => (int)$savedUser->user_id->__toString(),
+                'external_id' => $savedUser->external_id->__toString(),
+            ];
         }
         return $return;
     }

@@ -52,7 +52,7 @@ interface GetRemainingInterface
      * <a href="https://www.atomstore.pl/dokumentacja/587-metody---pozostale.html#content589">Atomstore Documentation</a>
      * @return array
      */
-    public function etShippingMethodsIndividuals(): array;
+    public function GetShippingMethodsIndividuals(): array;
 
     /**
      * <a href="https://www.atomstore.pl/dokumentacja/587-metody---pozostale.html#content628">Atomstore Documentation</a>

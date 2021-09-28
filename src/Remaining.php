@@ -146,15 +146,62 @@ class Remaining extends RemainingFactory
      */
     public function GetShippingMethods(): array
     {
-        // TODO: Implement GetShippingMethods() method.
+        $processed = [];
+        $xml = $this->convertToXmlElement(
+            $this->try(__FUNCTION__, [])
+        );
+        foreach ($xml->xpath('shipping_method') as $shipping_method) {
+            $processed[] = [
+                'id' => (int)$shipping_method->id->__toString(),
+                'external_id' => $shipping_method->external_id->__toString(),
+                'code' => $shipping_method->code->__toString(),
+                'name' => $this->getTranslations($shipping_method->xpath('name')),
+                'work_title' => $shipping_method->work_title->__toString(),
+                'description' => $this->getTranslations($shipping_method->xpath('description')),
+                'info' => $this->getTranslations($shipping_method->xpath('info')),
+                'active' => (bool)$shipping_method->active->__toString(),
+                'standard_price_netto' => (float)$shipping_method->standard_price_netto->__toString(),
+                'standard_price_brutto' => (float)$shipping_method->standard_price_brutto->__toString(),
+                'tax' => (int)$shipping_method->tax->__toString(),
+                'weight_from' => (float)$shipping_method->weight_from->__toString(),
+                'weight_to' => (float)$shipping_method->weight_to->__toString(),
+                'min_cart_total' => (float)$shipping_method->min_cart_total->__toString(),
+                'max_cart_total' => (float)$shipping_method->max_cart_total->__toString(),
+                'max_cart_item_count' => (int)$shipping_method->max_cart_item_count->__toString(),
+                'free_from_quantity' => (int)$shipping_method->free_from_quantity->__toString(),
+                'free_forms' => array_map(function ($free_from) {
+                    return [
+                        'cart_total' => (float)$free_from->cart_total->__toString(),
+                        'date_from' => $free_from->date_from->__toString(),
+                        'date_to' => $free_from->date_to->__toString(),
+                    ];
+                }, $shipping_method->free_froms->xpath('free_from') ?? [])
+            ];
+        }
+        return $processed;
     }
 
     /**
      * @inheritDoc
      */
-    public function etShippingMethodsIndividuals(): array
+    public function GetShippingMethodsIndividuals(): array
     {
-        // TODO: Implement etShippingMethodsIndividuals() method.
+        $processed = [];
+        $xml = $this->convertToXmlElement(
+            $this->try(__FUNCTION__, [])
+        );
+        foreach ($xml->xpath('shipping_method') as $shipping_method) {
+            $processed[] = [
+                'id' => (int)$shipping_method->id->__toString(),
+                'code' => $shipping_method->code->__toString(),
+                'external_id' => $shipping_method->external_id->__toString(),
+                'shipping_method_id' => (int)$shipping_method->shipping_method_id->__toString(),
+                'price' => (float)$shipping_method->price->__toString(),
+                'exclusion' => (bool)$shipping_method->exclusion->__toString(),
+                'gratis' => (bool)$shipping_method->gratis->__toString(),
+            ];
+        }
+        return $processed;
     }
 
     /**
@@ -162,15 +209,47 @@ class Remaining extends RemainingFactory
      */
     public function GetStores(): array
     {
-        // TODO: Implement GetStores() method.
+        $processed = [];
+        $xml = $this->convertToXmlElement(
+            $this->try(__FUNCTION__, [])
+        );
+        foreach ($xml->xpath('store') as $store) {
+            $processed[] = [
+                'id' => (int)$store->id->__toString(),
+                'domain' => $store->domain->__toString(),
+                'name' => $store->name->__toString(),
+            ];
+        }
+        return $processed;
     }
 
     /**
      * @inheritDoc
      */
-    public function GetShipmentLabels(string $orderId, string $trackingNumber): array
+    public function GetShipmentLabels(
+        string $orderId,
+        string $trackingNumber
+    ): array
     {
-        // TODO: Implement GetShipmentLabels() method.
+        $processed = [];
+        $xml = $this->convertToXmlElement(
+            $this->try(__FUNCTION__, [])
+        );
+        foreach ($xml->xpath('shipment') as $shipment) {
+            $processed[] = [
+                'order_id' => $shipment->order_id->__toString(),
+                'labels' => array_map(function ($label) {
+                    return [
+                        'tracking_number' => $label->tracking_number->__toString(),
+                        'url' => $label->url->__toString(),
+                    ];
+                }, $shipment->labels->xpath('label') ?? []),
+                'tracking_numbers' => array_map(function ($tracking_number) {
+                    return $tracking_number->__toString();
+                }, $shipment->tracking_numbers->xpath('tracking_number') ?? [])
+            ];
+        }
+        return $processed;
     }
 
     /**
@@ -178,7 +257,7 @@ class Remaining extends RemainingFactory
      */
     public function CheckConnection(): string
     {
-        // TODO: Implement CheckConnection() method.
+        return $this->try(__FUNCTION__, []);
     }
 
     /**
@@ -186,7 +265,7 @@ class Remaining extends RemainingFactory
      */
     public function UpdateOrders(): void
     {
-        // TODO: Implement UpdateOrders() method.
+        // Nothing to do here
     }
 
     /**
@@ -194,7 +273,41 @@ class Remaining extends RemainingFactory
      */
     public function SetCoupons(array $data): string|array
     {
-        // TODO: Implement SetCoupons() method.
+        $processed = [];
+        if (!empty($data)) {
+            foreach ($data as $element) {
+                $to_array = [];
+                if (isset($element['name'])) $to_array['name'] = is_array($element['name']) ? $this->setTranslations($element['name'], true) : ['_cdata' => $element['name']];
+                if (isset($element['fixed_value'])) $to_array['fixed_value'] = (string)$element['fixed_value'];
+                if (isset($element['percentage_value'])) $to_array['percentage_value'] = (string)$element['percentage_value'];
+                if (isset($element['date_from'])) $to_array['date_from'] = (string)$element['date_from'];
+                if (isset($element['date_to'])) $to_array['date_to'] = (string)$element['date_to'];
+                if (isset($element['codes_lifetime'])) $to_array['codes_lifetime'] = (string)$element['codes_lifetime'];
+                if (isset($element['min_cart_total'])) $to_array['min_cart_total'] = (string)$element['min_cart_total'];
+                if (isset($element['max_uses'])) $to_array['max_uses'] = (string)$element['max_uses'];
+                if (isset($element['codes'])) $to_array['codes']['code'] = array_map(function ($code) {
+                    $tmp = [];
+                    if (isset($code['code'])) $tmp['_value'] = (string)$code['code'];
+                    if (isset($code['delete'])) $tmp['_attributes']['delete'] = (string)$code['delete'];
+                    if (isset($code['uses'])) $tmp['_attributes']['uses'] = (string)$code['uses'];
+                    if (isset($code['attempts'])) $tmp['_attributes']['attempts'] = (string)$code['attempts'];
+                    return $tmp;
+                }, $element['codes']);
+                if (isset($element['shipping_methods'])) $to_array['shipping_methods']['shipping_method_id'] = $element['shipping_methods'];
+                array_push($processed, $to_array);
+            }
+        }
+        $response = $this->try(__FUNCTION__, [['xml' => $this->convertToXml($processed, 'coupon', 'coupons')]]);
+        $xml = $this->convertToXmlElement($response);
+        if (empty($xml)) return $response;
+        $return = [];
+        foreach ($xml->xpath('savedCoupon') as $savedCoupon) {
+            $return = [
+                'id' => (int)$savedCoupon->id->__toString(),
+                'name' => $savedCoupon->name->__toString(),
+            ];
+        }
+        return $return;
     }
 
     /**
@@ -202,7 +315,16 @@ class Remaining extends RemainingFactory
      */
     public function SetCurrencies(array $data): string
     {
-        // TODO: Implement SetCurrencies() method.
+        $processed = [];
+        if (!empty($data)) {
+            foreach ($data as $element) {
+                $to_array = [];
+                if (isset($element['code'])) $to_array['code'] = (string)$element['code'];
+                if (isset($element['value'])) $to_array['value'] = (string)$element['value'];
+                array_push($processed, $to_array);
+            }
+        }
+        return $this->try(__FUNCTION__, [['xml' => $this->convertToXml($processed, 'currency', 'currencies')]]);
     }
 
     /**
@@ -210,7 +332,37 @@ class Remaining extends RemainingFactory
      */
     public function SetDocuments(array $data): string
     {
-        // TODO: Implement SetDocuments() method.
+        $processed = [];
+        if (!empty($data)) {
+            foreach ($data as $element) {
+                $to_array = [];
+                if (isset($element['user'])) {
+                    if (isset($element['user']['atom_id'])) $to_array['user']['atom_id'] = (string)$element['user']['atom_id'];
+                    if (isset($element['user']['external_id'])) $to_array['user']['external_id'] = (string)$element['user']['external_id'];
+                    if (isset($element['user']['email'])) $to_array['user']['email'] = (string)$element['user']['email'];
+                }
+                if (isset($element['type'])) $to_array['type'] = (string)$element['type'];
+                if (isset($element['products'])) $to_array['products']['product'] = array_map(function ($item) {
+                    $tmp = [];
+                    if (isset($item['code'])) $tmp['code']['_cdata'] = (string)$item['code'];
+                    if (isset($item['quantity'])) $tmp['quantity'] = (string)$item['quantity'];
+                    if (isset($item['price'])) $tmp['price'] = (string)$item['price'];
+                    if (isset($item['tax'])) $tmp['tax'] = (string)$item['tax'];
+                    if (isset($item['data'])) $tmp['data']['_cdata'] = (string)$item['data'];
+                    return $tmp;
+                }, $element['products']);
+                if (isset($element['number'])) $to_array['number']['_cdata'] = (string)$element['number'];
+                if (isset($element['value'])) $to_array['value'] = (string)$element['value'];
+                if (isset($element['to_pay'])) $to_array['to_pay'] = (string)$element['to_pay'];
+                if (isset($element['data'])) $to_array['data']['_cdata'] = (string)$element['data'];
+                if (isset($element['file'])) {
+                    if (isset($element['file']['name'])) $to_array['file']['name'] = (string)$element['file']['name'];
+                    if (isset($element['file']['base64'])) $to_array['file']['base64']['_cdata'] = (string)$element['file']['base64'];
+                }
+                array_push($processed, $to_array);
+            }
+        }
+        return $this->try(__FUNCTION__, [['xml' => $this->convertToXml($processed, 'document', 'documents')]]);
     }
 
     /**
@@ -218,7 +370,7 @@ class Remaining extends RemainingFactory
      */
     public function SetMdkInvoices(): void
     {
-        // TODO: Implement SetMdkInvoices() method.
+        // Nothing to do here
     }
 
     /**
@@ -226,7 +378,7 @@ class Remaining extends RemainingFactory
      */
     public function SetMdkPayments(): void
     {
-        // TODO: Implement SetMdkPayments() method.
+        // Nothing to do here
     }
 
     /**
@@ -234,7 +386,38 @@ class Remaining extends RemainingFactory
      */
     public function SetShippingMethods(array $data): string
     {
-        // TODO: Implement SetShippingMethods() method.
+        $processed = [];
+        if (!empty($data)) {
+            foreach ($data as $element) {
+                $to_array = [];
+                if (isset($element['id'])) $to_array['id'] = (string)$element['id'];
+                if (isset($element['external_id'])) $to_array['external_id'] = (string)$element['external_id'];
+                if (isset($element['code'])) $to_array['code'] = (string)$element['code'];
+                if (isset($element['name'])) $to_array['name'] = is_array($element['name']) ? $this->setTranslations($element['name'], false) : $element['name'];
+                if (isset($element['description'])) $to_array['description'] = is_array($element['description']) ? $this->setTranslations($element['description'], false) : $element['description'];
+                if (isset($element['info'])) $to_array['info'] = is_array($element['info']) ? $this->setTranslations($element['info'], false) : $element['info'];
+                if (isset($element['work_title'])) $to_array['work_title'] = (string)$element['work_title'];
+                if (isset($element['active'])) $to_array['active'] = (string)$element['active'];
+                if (isset($element['standard_price_netto'])) $to_array['standard_price_netto'] = (string)$element['standard_price_netto'];
+                if (isset($element['standard_price_brutto'])) $to_array['standard_price_brutto'] = (string)$element['standard_price_brutto'];
+                if (isset($element['tax'])) $to_array['tax'] = (string)$element['tax'];
+                if (isset($element['weight_from'])) $to_array['weight_from'] = (string)$element['weight_from'];
+                if (isset($element['weight_to'])) $to_array['weight_to'] = (string)$element['weight_to'];
+                if (isset($element['min_cart_total'])) $to_array['min_cart_total'] = (string)$element['min_cart_total'];
+                if (isset($element['max_cart_total'])) $to_array['max_cart_total'] = (string)$element['max_cart_total'];
+                if (isset($element['max_cart_item_count'])) $to_array['max_cart_item_count'] = (string)$element['max_cart_item_count'];
+                if (isset($element['free_from_quantity'])) $to_array['free_from_quantity'] = (string)$element['free_from_quantity'];
+                if (isset($element['free_froms'])) $to_array['free_froms']['free_from'] = array_map(function ($item) {
+                    $tmp = [];
+                    if (isset($item['cart_total'])) $tmp['cart_total'] = (string)$item['cart_total'];
+                    if (isset($item['date_from'])) $tmp['date_from'] = (string)$item['date_from'];
+                    if (isset($item['date_to'])) $tmp['date_to'] = (string)$item['date_to'];
+                    return $tmp;
+                }, $element['free_froms']);
+                array_push($processed, $to_array);
+            }
+        }
+        return $this->try(__FUNCTION__, [['xml' => $this->convertToXml($processed, 'shipping_method', 'shipping_methods')]]);
     }
 
     /**
@@ -242,6 +425,18 @@ class Remaining extends RemainingFactory
      */
     public function SetShippingMethodsIndividuals(array $data): string
     {
-        // TODO: Implement SetShippingMethodsIndividuals() method.
+        $processed = [];
+        if (!empty($data)) {
+            foreach ($data as $element) {
+                $to_array = [];
+                if (isset($element['code'])) $to_array['code'] = (string)$element['code'];
+                if (isset($element['shipping_method_id'])) $to_array['shipping_method_id'] = (string)$element['shipping_method_id'];
+                if (isset($element['price'])) $to_array['price'] = (string)$element['price'];
+                if (isset($element['exclusion'])) $to_array['exclusion'] = (string)$element['exclusion'];
+                if (isset($element['gratis'])) $to_array['gratis'] = (string)$element['gratis'];
+                array_push($processed, $to_array);
+            }
+        }
+        return $this->try(__FUNCTION__, [['xml' => $this->convertToXml($processed, 'shipping_method', 'shipping_individuals')]]);
     }
 }

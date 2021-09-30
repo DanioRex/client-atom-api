@@ -15,7 +15,7 @@ class CatalogTest extends TestCase
         $this->catalog = new Catalog(
             '',
             '',
-            'ś'
+            ''
         );
     }
 

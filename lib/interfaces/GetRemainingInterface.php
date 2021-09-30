@@ -13,10 +13,10 @@ interface GetRemainingInterface
      * @return array
      */
     public function GetAllegroAuctions(
-        string $status,
-        string $number,
-        string $code,
-        string $date_add
+        string $status = "",
+        string $number = "",
+        string $code = "",
+        string $date_add = ""
     ): array;
 
     /**
@@ -32,7 +32,7 @@ interface GetRemainingInterface
      * @return array
      */
     public function GetDocuments(
-        int    $user_id,
+        int    $user_id = 0,
         string $modified = '0000-00-00 00:00:00'
     ): array;
 
@@ -67,7 +67,7 @@ interface GetRemainingInterface
      * @return array
      */
     public function GetShipmentLabels(
-        string $orderId,
-        string $trackingNumber
+        string $orderId = "",
+        string $trackingNumber = ""
     ): array;
 }

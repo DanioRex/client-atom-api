@@ -50,7 +50,7 @@ interface SetRemainingInterface
      */
     public function SetShippingMethods(
         array $data
-    ): string;
+    ): string|array;
 
     /**
      * <a href="https://www.atomstore.pl/dokumentacja/587-metody---pozostale.html#content901">Atomstore Documentation</a>

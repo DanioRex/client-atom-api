@@ -11,10 +11,10 @@ class Remaining extends RemainingFactory
      * @inheritDoc
      */
     public function GetAllegroAuctions(
-        string $status,
-        string $number,
-        string $code,
-        string $date_add
+        string $status = "",
+        string $number = "",
+        string $code = "",
+        string $date_add = ""
     ): array
     {
         $processed = [];
@@ -75,7 +75,7 @@ class Remaining extends RemainingFactory
      * @inheritDoc
      */
     public function GetDocuments(
-        int    $user_id,
+        int    $user_id = 0,
         string $modified = '0000-00-00 00:00:00'
     ): array
     {
@@ -126,7 +126,7 @@ class Remaining extends RemainingFactory
         $xml = $this->convertToXmlElement(
             $this->try(__FUNCTION__, [])
         );
-        foreach ($xml->xpath('payment_method') as $payment_method) {
+        foreach ($xml->xpath('payment_methods') as $payment_method) {
             $processed[] = [
                 'id' => (int)$payment_method->id->__toString(),
                 'external_id' => $payment_method->external_id->__toString(),
@@ -169,7 +169,7 @@ class Remaining extends RemainingFactory
                 'max_cart_total' => (float)$shipping_method->max_cart_total->__toString(),
                 'max_cart_item_count' => (int)$shipping_method->max_cart_item_count->__toString(),
                 'free_from_quantity' => (int)$shipping_method->free_from_quantity->__toString(),
-                'free_forms' => array_map(function ($free_from) {
+                'free_froms' => array_map(function ($free_from) {
                     return [
                         'cart_total' => (float)$free_from->cart_total->__toString(),
                         'date_from' => $free_from->date_from->__toString(),
@@ -227,8 +227,8 @@ class Remaining extends RemainingFactory
      * @inheritDoc
      */
     public function GetShipmentLabels(
-        string $orderId,
-        string $trackingNumber
+        string $orderId = "",
+        string $trackingNumber = ""
     ): array
     {
         $processed = [];
@@ -287,10 +287,14 @@ class Remaining extends RemainingFactory
                 if (isset($element['max_uses'])) $to_array['max_uses'] = (string)$element['max_uses'];
                 if (isset($element['codes'])) $to_array['codes']['code'] = array_map(function ($code) {
                     $tmp = [];
-                    if (isset($code['code'])) $tmp['_value'] = (string)$code['code'];
-                    if (isset($code['delete'])) $tmp['_attributes']['delete'] = (string)$code['delete'];
-                    if (isset($code['uses'])) $tmp['_attributes']['uses'] = (string)$code['uses'];
-                    if (isset($code['attempts'])) $tmp['_attributes']['attempts'] = (string)$code['attempts'];
+                    if (is_array($code)) {
+                        if (isset($code['code'])) $tmp['_value'] = (string)$code['code'];
+                        if (isset($code['delete'])) $tmp['_attributes']['delete'] = (string)$code['delete'];
+                        if (isset($code['uses'])) $tmp['_attributes']['uses'] = (string)$code['uses'];
+                        if (isset($code['attempts'])) $tmp['_attributes']['attempts'] = (string)$code['attempts'];
+                    } else {
+                        $tmp = $code;
+                    }
                     return $tmp;
                 }, $element['codes']);
                 if (isset($element['shipping_methods'])) $to_array['shipping_methods']['shipping_method_id'] = $element['shipping_methods'];
@@ -302,7 +306,7 @@ class Remaining extends RemainingFactory
         if (gettype($xml) != 'object') return $response;
         $return = [];
         foreach ($xml->xpath('savedCoupon') as $savedCoupon) {
-            $return = [
+            $return[] = [
                 'id' => (int)$savedCoupon->id->__toString(),
                 'name' => $savedCoupon->name->__toString(),
             ];
@@ -384,7 +388,7 @@ class Remaining extends RemainingFactory
     /**
      * @inheritDoc
      */
-    public function SetShippingMethods(array $data): string
+    public function SetShippingMethods(array $data): string|array
     {
         $processed = [];
         if (!empty($data)) {
@@ -417,7 +421,17 @@ class Remaining extends RemainingFactory
                 array_push($processed, $to_array);
             }
         }
-        return $this->try(__FUNCTION__, [['xml' => $this->convertToXml($processed, 'shipping_method', 'shipping_methods')]]);
+        $response = $this->try(__FUNCTION__, [['xml' => $this->convertToXml($processed, 'shipping_method', 'shipping_methods')]]);
+        $xml = $this->convertToXmlElement($response);
+        if (gettype($xml) != 'object') return $response;
+        $return = [];
+        foreach ($xml->xpath('shipping_method') as $shipping_method) {
+            $return[] = [
+                'id' => (int)$shipping_method->id->__toString(),
+                'status' => $shipping_method->status->__toString(),
+            ];
+        }
+        return $return;
     }
 
     /**

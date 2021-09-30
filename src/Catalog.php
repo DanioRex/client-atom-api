@@ -676,7 +676,7 @@ class Catalog extends CatalogFactory
     /**
      * @inheritDoc
      */
-    public function SetProducers(array $data): array
+    public function SetProducers(array $data): array|string
     {
         $processed = [];
         if (!empty($data)) {
@@ -694,16 +694,15 @@ class Catalog extends CatalogFactory
         }
         $response = $this->try(__FUNCTION__, [['xml' => $this->convertToXml($processed, 'producer', 'producers')]]);
         $xml = $this->convertToXmlElement($response);
-        $processed = [];
-        if (isset($xml)) {
-            foreach ($xml->xpath('savedProducer') as $savedProducer) {
-                $processed[] = [
-                    'id' => $savedProducer->id->__toString(),
-                    'name' => $savedProducer->name->__toString()
-                ];
-            }
+        if (empty($xml)) return $response;
+        $return = [];
+        foreach ($xml->xpath('savedProducer') as $savedProducer) {
+            $return[] = [
+                'id' => $savedProducer->id->__toString(),
+                'name' => $savedProducer->name->__toString()
+            ];
         }
-        return $processed;
+        return $return;
     }
 
     /**

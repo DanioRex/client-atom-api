@@ -15,7 +15,7 @@ class CatalogTest extends TestCase
         $this->catalog = new Catalog(
             '',
             '',
-            ''
+            'ś'
         );
     }
 
@@ -400,12 +400,13 @@ class CatalogTest extends TestCase
                 'delete' => 1
             ]
         ]);
-        $this->assertIsArray($response);
         if (is_array($response)) {
             foreach ($response as $producer) {
                 $this->assertArrayHasKey('id', $producer);
                 $this->assertArrayHasKey('name', $producer);
             }
+        } else {
+            $this->assertIsString('OK', $response);
         }
     }
 

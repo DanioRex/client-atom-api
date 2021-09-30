@@ -13,9 +13,9 @@ class ClientsTest extends TestCase
     {
         parent::__construct($name, $data, $dataName);
         $this->clients = new Clients(
-            'http://idesign.atomstore.pl/atom_api/wsdl/atom_api',
-            'dmazur',
-            ']W:(YkFLfj'
+            '',
+            '',
+            ''
         );
     }
 

@@ -6,11 +6,14 @@
 
 ------------
 
-##### Table of Contents
+<details>
+<summary>Table of Contents</summary>
 
 * [Catalog](#catalog)
     * [GetAttributes](#getattributes)
     * [GetCategories](#getcategories)
+
+</details>
 
 # Catalog
 

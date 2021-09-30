@@ -408,9 +408,13 @@ class Orders extends OrdersFactory
                 if (isset($element['store_id'])) $to_array['store_id'] = (string)$element['store_id'];
                 if (isset($element['currency'])) $to_array['currency'] = (string)$element['currency'];
                 if (isset($element['currencyValue'])) $to_array['currencyValue'] = (string)$element['currencyValue'];
-                if (isset($element['comments']['comment'])) $to_array['comments']['_cdata'] = (string)$element['comments']['comment'];
-                if (isset($element['comments']['send_email'])) $to_array['comments']['_attributes']['send_email'] = (string)$element['comments']['send_email'];
-                if (isset($element['comments']['email_subject'])) $to_array['comments']['_attributes']['email_subject'] = (string)$element['comments']['email_subject'];
+                if (isset($element['comments']) && is_array($element['comments'])) {
+                    if (isset($element['comments']['comment'])) $to_array['comments']['_cdata'] = (string)$element['comments']['comment'];
+                    if (isset($element['comments']['send_email'])) $to_array['comments']['_attributes']['send_email'] = (string)$element['comments']['send_email'];
+                    if (isset($element['comments']['email_subject'])) $to_array['comments']['_attributes']['email_subject'] = (string)$element['comments']['email_subject'];
+                } elseif (isset($element['comments'])) {
+                    $to_array['comments']['_cdata'] = (string)$element['comments'];
+                }
                 if (isset($element['send_email'])) $to_array['send_email'] = (string)$element['send_email'];
                 if (isset($element['payments'])) $to_array['payments']['payment'] = (array_map(function ($payment) {
                     $tmp = [];

@@ -299,7 +299,7 @@ class Remaining extends RemainingFactory
         }
         $response = $this->try(__FUNCTION__, [['xml' => $this->convertToXml($processed, 'coupon', 'coupons')]]);
         $xml = $this->convertToXmlElement($response);
-        if (empty($xml)) return $response;
+        if (gettype($xml) != 'object') return $response;
         $return = [];
         foreach ($xml->xpath('savedCoupon') as $savedCoupon) {
             $return = [

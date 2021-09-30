@@ -284,7 +284,7 @@ class Clients extends ClientsFactory
         }
         $response = $this->try(__FUNCTION__, [['xml' => $this->convertToXml($processed, 'user', 'users')]]);
         $xml = $this->convertToXmlElement($response);
-        if (empty($xml)) return $response;
+        if (gettype($xml) != 'object') return $response;
         $return = [];
         foreach ($xml->xpath('savedUser') as $savedUser) {
             $return[] = [

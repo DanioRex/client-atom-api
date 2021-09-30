@@ -694,7 +694,7 @@ class Catalog extends CatalogFactory
         }
         $response = $this->try(__FUNCTION__, [['xml' => $this->convertToXml($processed, 'producer', 'producers')]]);
         $xml = $this->convertToXmlElement($response);
-        if (empty($xml)) return $response;
+        if (gettype($xml) != 'object') return $response;
         $return = [];
         foreach ($xml->xpath('savedProducer') as $savedProducer) {
             $return[] = [

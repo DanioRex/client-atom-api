@@ -60,6 +60,8 @@ $return = $catalog->GetAttributes(
                 * default *string*
                 * "ISO 639-3" *string*
 
+[Go to TOC](#atomstore-soap-api)
+
 ## GetCategories
 
 ```php
@@ -87,6 +89,8 @@ $return = $catalog->GetCategories(
     * seo_title *string*
     * seo_keywords *string*
     * seo_description *string*
+
+[Go to TOC](#atomstore-soap-api)
 
 ## GetLockedQuantities
 

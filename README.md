@@ -13,6 +13,27 @@
 * [Catalog](#catalog)
     * [GetAttributes](#getattributes)
     * [GetCategories](#getcategories)
+    * [GetLockedQuantities](#getlockedquantities)
+    * [GetOpinions](#getopinions)
+    * [GetPrices](#getprices)
+    * [GetProducers](#getproducers)
+    * [GetProductByCode](#getproductbycode)
+    * [GetProductQuantities](#getproductquantities)
+    * [GetProducts](#getproducts)
+    * [GetProductsIdsRange](#getproductsidsrange)
+    * [GetSpecials](#getspecials)
+    * [SetCategories](#setcategories)
+    * [SetCombinations](#setcombinations)
+    * [SetGratis](#setgratis)
+    * [SetOpenPackage](#setopenpackage)
+    * [SetOpenPackageGroups](#setopenpackagegroups)
+    * [SetOpinions](#setopinions)
+    * [SetPrices](#setprices)
+    * [SetProducers](#setproducers)
+    * [SetProductQuantities](#setproductquantities)
+    * [SetProducts](#setproducts)
+    * [SetProductsImages](#setproductsimages)
+* [Clients](#clients)
 
 </details>
 
@@ -182,7 +203,7 @@ $return = $catalog->GetPrices(
 
 [Go to TOC](#atomstore-soap-api)
 
-## GetProducersa
+## GetProducers
 
 ---
 

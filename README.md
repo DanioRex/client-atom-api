@@ -9,11 +9,16 @@
 <details>
 <summary>Table of Contents</summary>
 
+* [Instalation](#instalation)
 * [Catalog](#catalog)
     * [GetAttributes](#getattributes)
     * [GetCategories](#getcategories)
 
 </details>
+
+# Instalation
+
+`composer require daniorex/client-atom-api`
 
 # Catalog
 
@@ -94,17 +99,90 @@ $return = $catalog->GetCategories(
 
 ## GetLockedQuantities
 
----
+```php
+$return = $catalog->GetLockedQuantities();
+```
+
+### Return
+
+* ARRAY
+    * product_id *int*
+    * combination_id *int*
+    * code *string*
+    * locked_quantity *int*
+    * orders *array*
+        * ARRAY
+            * id *int*
+            * quantity *int*
+
+[Go to TOC](#atomstore-soap-api)
 
 ## GetOpinions
 
----
+```php
+$return = $catalog->GetOpinions(
+    timestamp: '2020-02-02 02:02:02'
+);
+```
+
+### Params
+
+|Name|Type|Required| 
+| ------------ | ------------ | ------------ |
+|timestamp|string|yes|
+
+### Return
+
+* ARRAY
+    * code *string*
+    * username *string*
+    * email *string*
+    * content *string*
+    * note *int*
+    * status *bool*
+    * benefits *string*
+    * defects *string*
+
+[Go to TOC](#atomstore-soap-api)
 
 ## GetPrices
 
----
+```php
+$return = $catalog->GetPrices(
+    return_specials: false,
+    offset: 0,
+    limit: 0
+);
+```
 
-## GetProducers
+### Params
+
+|Name|Type|Required| 
+| ------------ | ------------ | ------------ |
+|return_specials|bool|no|
+|offset|int|no|
+|limit|int|no|
+
+### Return
+
+* ARRAY
+    * external_id *string*
+    * code *string*
+    * price_netto *float*
+    * vat *int*
+    * price_brutto *float*
+    * special *bool*
+    * price_promo *float*
+    * sale_name *array*
+        * name *string*
+        * quantity *int*
+    * date_from *string*
+    * date_to *string*
+    * stores *array*
+
+[Go to TOC](#atomstore-soap-api)
+
+## GetProducersa
 
 ---
 
